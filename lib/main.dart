@@ -39,8 +39,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldMessenger(
-        child: Scaffold(
+    return Scaffold(
       body: BlocConsumer<NoteBloc, NoteState>(
         listenWhen: (context, state) {
           return state is NoteErrorState;
@@ -69,7 +68,7 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () => context.read<NoteBloc>().add(InsertNoteEvent())),
-    ));
+    );
   }
 }
 

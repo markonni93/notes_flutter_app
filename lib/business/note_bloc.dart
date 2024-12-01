@@ -13,7 +13,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
           NoteModel(
               id: 2, note: "My second note description", title: "Second NOTE"),
         ]);
-        //emit(NoteSuccessState());
       } catch (e) {
         emit(NoteErrorState(error: e.toString()));
       }
