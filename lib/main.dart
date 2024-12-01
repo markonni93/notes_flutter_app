@@ -39,21 +39,37 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<NoteBloc, NoteState>(builder: (context, state) {
-        switch (state) {
-          case NoteLoadingState():
+    return ScaffoldMessenger(
+        child: Scaffold(
+      body: BlocConsumer<NoteBloc, NoteState>(
+        listenWhen: (context, state) {
+          return state is NoteErrorState;
+        },
+        listener: (context, state) {
+          if (state is NoteErrorState) {
+            const snackBar = SnackBar(
+              content: Text('Yay! A SnackBar!'),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        },
+        buildWhen: (context, state) {
+          return state is NoteLoadingState || state is NoteSuccessState;
+        },
+        builder: (context, state) {
+          if (state is NoteLoadingState) {
             return const NoteLoadingIndicator();
-          case NoteErrorState():
-            return Text("${state.error}}");
-          case NoteSuccessState():
+          } else if (state is NoteSuccessState) {
             return NoteList(items: state.data);
-        }
-      }),
+          } else {
+            throw Exception("Unhandled state");
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () => context.read<NoteBloc>().add(InsertNoteEvent())),
-    );
+    ));
   }
 }
 

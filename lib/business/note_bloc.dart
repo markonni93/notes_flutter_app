@@ -21,6 +21,8 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     on<GetNoteEvent>((state, emit) async {
       try {
         final data = await _repository.getNotes();
+        // TODO This is just for practise to see if elements are being rewritten properly
+        await Future.delayed(const Duration(seconds: 3));
         emit(NoteSuccessState(data: data));
       } catch (e) {
         emit(NoteErrorState(error: e.toString()));
