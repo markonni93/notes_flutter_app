@@ -4,6 +4,8 @@ import 'package:flutter_notes/data/notes_repository.dart';
 import 'package:flutter_notes/ui/model/note_ui_model.dart';
 
 class NoteBloc extends Bloc<NoteEvent, NoteState> {
+  final NotesRepository _repository;
+
   NoteBloc(this._repository) : super(NoteLoadingState()) {
     on<InsertNoteEvent>((state, emit) async {
       try {
@@ -31,8 +33,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       print("Delete note clicked");
     });
   }
-
-  final NotesRepository _repository;
 }
 
 sealed class NoteState {}

@@ -15,13 +15,19 @@ class NoteApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Note App",
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true),
-      home: Scaffold(body: HomeScreen(repository: NotesRepository())),
-    );
+    return MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<NotesRepository>(
+            create: (context) => NotesRepository(),
+          )
+        ],
+        child: MaterialApp(
+          title: "Note App",
+          theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true),
+          home: const Scaffold(body: HomeScreen()),
+        ));
   }
 }
 
@@ -35,19 +41,15 @@ class CreateScreen extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key, required NotesRepository repository})
-      : _notesRepository = repository;
-
-  final NotesRepository _notesRepository;
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-        value: _notesRepository,
-        child: BlocProvider(
-            create: (context) =>
-                NoteBloc(context.read<NotesRepository>())..add(GetNoteEvent()),
-            child: const SafeArea(child: NotesScreen())));
+    return BlocProvider(
+        create: (context) =>
+            NoteBloc(RepositoryProvider.of<NotesRepository>(context))
+              ..add(GetNoteEvent()),
+        child: const SafeArea(child: NotesScreen()));
   }
 }
 
