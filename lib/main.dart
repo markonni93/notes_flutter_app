@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/ui/model/note_ui_model.dart';
 
 import 'business/note_bloc.dart';
 import 'common/widgets/note_loading_indicator.dart';
@@ -20,7 +21,8 @@ class NotesApp extends StatelessWidget {
     return RepositoryProvider.value(
         value: _notesRepository,
         child: BlocProvider(
-            create: (context) => NoteBloc(context.read<NotesRepository>()),
+            create: (context) =>
+                NoteBloc(context.read<NotesRepository>())..add(GetNoteEvent()),
             child: MaterialApp(
                 title: 'Flutter Demo',
                 theme: ThemeData(
@@ -38,30 +40,40 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Column(
-        children: [
-          BlocBuilder<NoteBloc, NoteState>(builder: (context, state) {
-            switch (state) {
-              case NoteLoadingState():
-                return const NoteLoadingIndicator();
-              case NoteErrorState():
-                return Text("${state.error}}");
-              case NoteSuccessState():
-                return const Text("Notes fetched successfully");
-            }
-          }),
-          ElevatedButton(
-              onPressed: () => context.read<NoteBloc>().add(InsertNoteEvent()),
-              child: const Text("Insert note")),
-          ElevatedButton(
-              onPressed: () => context.read<NoteBloc>().add(DeleteNoteEvent()),
-              child: const Text("Delete note")),
-          ElevatedButton(
-              onPressed: () => context.read<NoteBloc>().add(GetNoteEvent()),
-              child: const Text("Get note")),
-        ],
-      ),
-    ));
+      body: BlocBuilder<NoteBloc, NoteState>(builder: (context, state) {
+        switch (state) {
+          case NoteLoadingState():
+            return const NoteLoadingIndicator();
+          case NoteErrorState():
+            return Text("${state.error}}");
+          case NoteSuccessState():
+            return NoteList(items: state.data);
+        }
+      }),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () => context.read<NoteBloc>().add(InsertNoteEvent())),
+    );
+  }
+}
+
+class NoteList extends StatelessWidget {
+  final List<NoteUiModel> items;
+
+  const NoteList({super.key, required this.items});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          final item = items[index];
+          return Column(
+            children: [
+              Text("Title is ${item.title}"),
+              Text("Description is ${item.note}")
+            ],
+          );
+        });
   }
 }

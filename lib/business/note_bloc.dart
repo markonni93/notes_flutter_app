@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/data/model/note_model.dart';
 import 'package:flutter_notes/data/notes_repository.dart';
+import 'package:flutter_notes/ui/model/note_ui_model.dart';
 
 class NoteBloc extends Bloc<NoteEvent, NoteState> {
   NoteBloc(this._repository) : super(NoteLoadingState()) {
@@ -12,13 +13,18 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
           NoteModel(
               id: 2, note: "My second note description", title: "Second NOTE"),
         ]);
-        emit(NoteSuccessState());
+        //emit(NoteSuccessState());
       } catch (e) {
         emit(NoteErrorState(error: e.toString()));
       }
     });
-    on<GetNoteEvent>((state, emit) {
-      print("Get note clicked");
+    on<GetNoteEvent>((state, emit) async {
+      try {
+        final data = await _repository.getNotes();
+        emit(NoteSuccessState(data: data));
+      } catch (e) {
+        emit(NoteErrorState(error: e.toString()));
+      }
     });
     on<DeleteNoteEvent>((state, emit) {
       print("Delete note clicked");
@@ -38,7 +44,11 @@ class NoteErrorState extends NoteState {
   NoteErrorState({required this.error});
 }
 
-class NoteSuccessState extends NoteState {}
+class NoteSuccessState extends NoteState {
+  final List<NoteUiModel> data;
+
+  NoteSuccessState({required this.data});
+}
 
 sealed class NoteEvent {}
 
