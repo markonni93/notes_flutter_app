@@ -7,11 +7,35 @@ import 'common/widgets/note_loading_indicator.dart';
 import 'data/notes_repository.dart';
 
 void main() {
-  runApp(NotesApp(repository: NotesRepository()));
+  runApp(const NoteApp());
 }
 
-class NotesApp extends StatelessWidget {
-  const NotesApp({super.key, required NotesRepository repository})
+class NoteApp extends StatelessWidget {
+  const NoteApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "Note App",
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true),
+      home: Scaffold(body: HomeScreen(repository: NotesRepository())),
+    );
+  }
+}
+
+class CreateScreen extends StatelessWidget {
+  const CreateScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: Center(child: Text("Something")));
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key, required NotesRepository repository})
       : _notesRepository = repository;
 
   final NotesRepository _notesRepository;
@@ -23,19 +47,12 @@ class NotesApp extends StatelessWidget {
         child: BlocProvider(
             create: (context) =>
                 NoteBloc(context.read<NotesRepository>())..add(GetNoteEvent()),
-            child: MaterialApp(
-                title: 'Flutter Demo',
-                theme: ThemeData(
-                  colorScheme:
-                      ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-                  useMaterial3: true,
-                ),
-                home: const SafeArea(child: HomeScreen()))));
+            child: const SafeArea(child: NotesScreen())));
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class NotesScreen extends StatelessWidget {
+  const NotesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +84,10 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
-          onPressed: () => context.read<NoteBloc>().add(InsertNoteEvent())),
+          onPressed: () => {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const CreateScreen()))
+              }),
     );
   }
 }
