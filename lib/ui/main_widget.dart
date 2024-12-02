@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/ui/home/home_widget.dart';
 import 'package:flutter_notes/ui/main_bloc.dart';
+import 'package:flutter_notes/ui/settings/settings_widget.dart';
 
 class MainWidget extends StatelessWidget {
   const MainWidget({super.key});
@@ -23,30 +25,8 @@ class MainWidget extends StatelessWidget {
                           );
                         },
                         child: state.currentIndex == 0
-                            ? ConstrainedBox(
-                                key: const ValueKey(1),
-                                constraints:
-                                    const BoxConstraints(maxWidth: 840),
-                                child: GridView.builder(
-                                    gridDelegate:
-                                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                                            maxCrossAxisExtent: 250),
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Text("Something $index");
-                                    }))
-                            : ConstrainedBox(
-                                key: const ValueKey(2),
-                                constraints:
-                                    const BoxConstraints(maxWidth: 840),
-                                child: GridView.builder(
-                                    gridDelegate:
-                                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                                            maxCrossAxisExtent: 250),
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Text("Something else $index");
-                                    })),
+                            ? const HomeWidget()
+                            : const SettingsWidget(),
                       ),
                       bottomNavigationBar: BottomNavigationBar(
                           currentIndex: state.currentIndex,
