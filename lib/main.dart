@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/business/product_bloc.dart';
+import 'package:flutter_notes/data/remote/product_repository.dart';
 import 'package:flutter_notes/ui/model/note_ui_model.dart';
 
 import 'business/note_bloc.dart';
@@ -19,6 +21,9 @@ class NoteApp extends StatelessWidget {
         providers: [
           RepositoryProvider<NotesRepository>(
             create: (context) => NotesRepository(),
+          ),
+          RepositoryProvider<ProductRepository>(
+            create: (context) => ProductRepositoryImpl(),
           )
         ],
         child: MaterialApp(
@@ -36,7 +41,36 @@ class CreateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text("Something")));
+    return BlocProvider(
+        create: (context) =>
+            ProductBloc(RepositoryProvider.of<ProductRepository>(context))
+              ..add(GetProductEvent()),
+        child: SafeArea(
+            child: BlocConsumer<ProductBloc, ProductState>(
+          listenWhen: (context, state) {
+            return state is ProductErrorState;
+          },
+          listener: (context, state) {
+            if (state is ProductErrorState) {
+              const snackBar = SnackBar(
+                content: Text('Error happened!'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }
+          },
+          buildWhen: (context, state) {
+            return state is ProductLoadingState || state is ProductSuccessState;
+          },
+          builder: (context, state) {
+            if (state is ProductLoadingState) {
+              return const NoteLoadingIndicator();
+            } else if (state is ProductSuccessState) {
+              return const Text("Successfully fetched data");
+            } else {
+              throw Exception("Unhandled state");
+            }
+          },
+        )));
   }
 }
 
