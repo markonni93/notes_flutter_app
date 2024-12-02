@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(const HomeTabActiveState()) {
+class MainWidgetBloc extends Bloc<MainWidgetEvent, MainWidgetState> {
+  MainWidgetBloc() : super(const HomeTabActiveState()) {
     on<TabClickedEvent>((state, emit) {
       final index = state.index;
 
@@ -15,21 +15,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 }
 
-sealed class HomeEvent {
-  const HomeEvent();
+sealed class MainWidgetEvent {
+  const MainWidgetEvent();
 }
 
-class TabClickedEvent extends HomeEvent {
+class TabClickedEvent extends MainWidgetEvent {
   final int index;
 
   const TabClickedEvent({required this.index});
 }
 
-sealed class HomeState {
-  const HomeState();
+sealed class MainWidgetState {
+  const MainWidgetState();
 }
 
-extension HomeStateExtension on HomeState {
+extension MainWidgetStateExtension on MainWidgetState {
   int get currentIndex {
     if (this is HomeTabActiveState) return 0;
     if (this is SettingsTabActiveState) return 1;
@@ -37,10 +37,10 @@ extension HomeStateExtension on HomeState {
   }
 }
 
-final class HomeTabActiveState extends HomeState {
+final class HomeTabActiveState extends MainWidgetState {
   const HomeTabActiveState();
 }
 
-class SettingsTabActiveState extends HomeState {
+class SettingsTabActiveState extends MainWidgetState {
   const SettingsTabActiveState();
 }
