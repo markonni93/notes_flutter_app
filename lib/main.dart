@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/business/product_bloc.dart';
 import 'package:flutter_notes/data/remote/product_repository.dart';
+import 'package:flutter_notes/ui/home/home_ui.dart';
 import 'package:flutter_notes/ui/model/note_ui_model.dart';
 
 import 'business/note_bloc.dart';
@@ -31,7 +32,7 @@ class NoteApp extends StatelessWidget {
           theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true),
-          home: const Scaffold(body: HomeScreen()),
+          home: const HomeWidget(),
         ));
   }
 }
@@ -83,7 +84,7 @@ class HomeScreen extends StatelessWidget {
         create: (context) =>
             NoteBloc(RepositoryProvider.of<NotesRepository>(context))
               ..add(GetNoteEvent()),
-        child: const SafeArea(child: NotesScreen()));
+        child: const NotesScreen());
   }
 }
 
