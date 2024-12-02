@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/business/product_bloc.dart';
@@ -8,8 +9,13 @@ import 'package:flutter_notes/ui/model/note_ui_model.dart';
 import 'business/note_bloc.dart';
 import 'common/widgets/note_loading_indicator.dart';
 import 'data/notes_repository.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const NoteApp());
 }
 
