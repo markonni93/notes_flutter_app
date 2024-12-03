@@ -5,6 +5,8 @@ import 'package:flutter_notes/ui/home/home_widget.dart';
 import 'package:flutter_notes/ui/main_bloc.dart';
 import 'package:flutter_notes/ui/settings/settings_widget.dart';
 
+import 'create/create_note_widget.dart';
+
 class MainWidget extends StatelessWidget {
   const MainWidget({super.key});
 
@@ -27,6 +29,12 @@ class MainWidget extends StatelessWidget {
                         },
                         child: _getWidgetForIndex(state.currentIndex),
                       ),
+                      floatingActionButton: FloatingActionButton(
+                          child: const Icon(Icons.add),
+                          onPressed: () =>
+                              Navigator.of(context).push(_constructCreateScreenRoute())),
+                      floatingActionButtonAnimator:
+                          FloatingActionButtonAnimator.scaling,
                       bottomNavigationBar: NavigationBar(
                           selectedIndex: state.currentIndex,
                           onDestinationSelected: (index) => context
@@ -40,6 +48,26 @@ class MainWidget extends StatelessWidget {
                               .toList())));
             }));
   }
+}
+
+Route _constructCreateScreenRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        const CreateScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0); // Start position (bottom of screen)
+      const end = Offset.zero; // End position (current screen)
+      const curve = Curves.easeInOut;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var offsetAnimation = animation.drive(tween);
+
+      return SlideTransition(
+        position: offsetAnimation,
+        child: child,
+      );
+    },
+  );
 }
 
 Widget _getWidgetForIndex(int currentIndex) {
