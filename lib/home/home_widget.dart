@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/ui/home/home_bloc.dart';
-
 import '../../data/notes_repository.dart';
+import 'home_bloc.dart';
 
 class HomeWidget extends StatelessWidget {
   const HomeWidget({super.key});

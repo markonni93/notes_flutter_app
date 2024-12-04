@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/data/notes_repository.dart';
 
 import '../../business/note_bloc.dart';
-import '../../business/product_bloc.dart';
 import '../../common/widgets/note_loading_indicator.dart';
-import '../../data/remote/product_repository.dart';
 
 class CreateScreen extends StatelessWidget {
   const CreateScreen({super.key});

@@ -2,10 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/data/remote/product_repository.dart';
-import 'package:flutter_notes/ui/main_widget.dart';
+import 'package:flutter_notes/main_widget.dart';
 
 import 'data/notes_repository.dart';
-import 'firebase_options.dart';
+import 'firebase/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

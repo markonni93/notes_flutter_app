@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/data/notes_repository.dart';
-import 'package:flutter_notes/ui/model/note_ui_model.dart';
+import 'package:flutter_notes/data/model/ui/note_ui_model.dart';
 
 class HomeBloc extends Bloc<NotesEvent, NoteState> {
   HomeBloc({required this.repository}) : super(const NoteState()) {

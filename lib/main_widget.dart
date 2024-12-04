@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/main.dart';
-import 'package:flutter_notes/ui/home/home_widget.dart';
-import 'package:flutter_notes/ui/main_bloc.dart';
-import 'package:flutter_notes/ui/settings/settings_widget.dart';
+import 'package:flutter_notes/main_bloc.dart';
+import 'package:flutter_notes/settings/settings_widget.dart';
 
 import 'create/create_note_widget.dart';
+import 'home/home_widget.dart';
 
 class MainWidget extends StatelessWidget {
   const MainWidget({super.key});
@@ -31,8 +30,8 @@ class MainWidget extends StatelessWidget {
                       ),
                       floatingActionButton: FloatingActionButton(
                           child: const Icon(Icons.add),
-                          onPressed: () =>
-                              Navigator.of(context).push(_constructCreateScreenRoute())),
+                          onPressed: () => Navigator.of(context)
+                              .push(_constructCreateScreenRoute())),
                       floatingActionButtonAnimator:
                           FloatingActionButtonAnimator.scaling,
                       bottomNavigationBar: NavigationBar(
