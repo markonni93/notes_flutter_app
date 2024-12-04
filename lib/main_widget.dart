@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/business/note_bloc.dart';
 import 'package:flutter_notes/main_bloc.dart';
 import 'package:flutter_notes/settings/settings_widget.dart';
 
 import 'create/create_note_widget.dart';
-import 'data/notes_repository.dart';
 import 'home/home_widget.dart';
 
 class MainWidget extends StatelessWidget {
@@ -13,46 +11,40 @@ class MainWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => MainWidgetBloc()),
-          BlocProvider(
-              create: (context) => NoteBloc(
-                  repository: RepositoryProvider.of<NotesRepository>(context)))
-        ],
-        child: BlocConsumer<MainWidgetBloc, MainWidgetState>(
-            listener: (context, state) {},
+    return BlocProvider(
+        create: (context) => MainWidgetBloc(),
+        child: BlocBuilder<MainWidgetBloc, MainWidgetState>(
             builder: (context, state) {
-              return SafeArea(
-                  child: Scaffold(
-                      body: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        transitionBuilder: (child, animation) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        },
-                        child: _getWidgetForIndex(state.currentIndex),
-                      ),
-                      floatingActionButton: FloatingActionButton(
-                          child: const Icon(Icons.add),
-                          onPressed: () => Navigator.of(context)
-                              .push(_constructCreateScreenRoute())),
-                      floatingActionButtonAnimator:
-                          FloatingActionButtonAnimator.scaling,
-                      bottomNavigationBar: NavigationBar(
-                          selectedIndex: state.currentIndex,
-                          onDestinationSelected: (index) => context
-                              .read<MainWidgetBloc>()
-                              .add(TabClickedEvent(index: index)),
-                          destinations: MainBottomBarItem.values
-                              .map((e) => NavigationDestination(
-                                    icon: Icon(e.icon),
-                                    label: e.title,
-                                  ))
-                              .toList())));
-            }));
+          return SafeArea(
+              child: Scaffold(
+                  body: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    transitionBuilder: (child, animation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                    child: _getWidgetForIndex(state.currentIndex),
+                  ),
+                  floatingActionButton: FloatingActionButton(
+                      child: const Icon(Icons.add),
+                      onPressed: () => Navigator.of(context)
+                          .push(_constructCreateScreenRoute())),
+                  floatingActionButtonAnimator:
+                      FloatingActionButtonAnimator.scaling,
+                  bottomNavigationBar: NavigationBar(
+                      selectedIndex: state.currentIndex,
+                      onDestinationSelected: (index) => context
+                          .read<MainWidgetBloc>()
+                          .add(TabClickedEvent(index: index)),
+                      destinations: MainBottomBarItem.values
+                          .map((e) => NavigationDestination(
+                                icon: Icon(e.icon),
+                                label: e.title,
+                              ))
+                          .toList())));
+        }));
   }
 }
 
