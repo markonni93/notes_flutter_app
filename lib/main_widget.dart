@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/business/note_bloc.dart';
 import 'package:flutter_notes/main_bloc.dart';
 import 'package:flutter_notes/settings/settings_widget.dart';
 
 import 'create/create_note_widget.dart';
+import 'data/notes_repository.dart';
 import 'home/home_widget.dart';
 
 class MainWidget extends StatelessWidget {
@@ -11,8 +13,13 @@ class MainWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) => MainWidgetBloc(),
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => MainWidgetBloc()),
+          BlocProvider(
+              create: (context) => NoteBloc(
+                  repository: RepositoryProvider.of<NotesRepository>(context)))
+        ],
         child: BlocConsumer<MainWidgetBloc, MainWidgetState>(
             listener: (context, state) {},
             builder: (context, state) {

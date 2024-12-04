@@ -1,64 +1,59 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/data/model/note_model.dart';
 import 'package:flutter_notes/data/notes_repository.dart';
-import 'package:flutter_notes/data/model/ui/note_ui_model.dart';
 
 class NoteBloc extends Bloc<NoteEvent, NoteState> {
-  final NotesRepository _repository;
+  final NotesRepository repository;
 
-  NoteBloc(this._repository) : super(NoteLoadingState()) {
-    on<InsertNoteEvent>((state, emit) async {
-      try {
-        List<NoteModel> list = [];
+  NoteBloc({required this.repository}) : super(const NoteState()) {
+    on<InsertNote>(_insertNote);
+  }
 
-        for (var i = 0; i < 100; i++) {
-          list.add(NoteModel(
-              id: i, note: "Description for my $i note", title: "My $i note"));
-        }
+  Future<void> _insertNote(InsertNote event, Emitter<NoteState> emit) async {
+    try {
+      List<NoteModel> list = [];
 
-        await _repository.insertNotes(list);
-        emit(NoteSuccessState(data: []));
-      } catch (e) {
-        print("Error happened $e");
-        emit(NoteErrorState(error: e.toString()));
+      for (var i = 0; i < 100; i++) {
+        list.add(NoteModel(
+            id: i, note: "Description for my $i note", title: "My $i note"));
       }
-    });
-    on<GetNoteEvent>((state, emit) async {
-      try {
-        final data = await _repository.getNotes();
-        // TODO This is just for practise to see if elements are being rewritten properly
-        await Future.delayed(const Duration(seconds: 3));
-        emit(NoteSuccessState(data: data));
-      } catch (e) {
-        emit(NoteErrorState(error: e.toString()));
-      }
-    });
-    on<DeleteNoteEvent>((state, emit) {
-      print("Delete note clicked");
-    });
+
+      await repository.insertNotes(list);
+      emit(state.copyWith(status: NoteStatus.success));
+    } catch (e) {
+      print("Error happened $e");
+      emit(state.copyWith(status: NoteStatus.failure));
+    }
   }
 }
 
-sealed class NoteState {}
+final class NoteState {
+  const NoteState({this.status = NoteStatus.loading});
 
-class NoteLoadingState extends NoteState {}
+  final NoteStatus status;
 
-class NoteErrorState extends NoteState {
-  final String error;
-
-  NoteErrorState({required this.error});
+  NoteState copyWith({NoteStatus? status}) {
+    return NoteState(status: status ?? this.status);
+  }
 }
 
-class NoteSuccessState extends NoteState {
-  final List<NoteUiModel> data;
-
-  NoteSuccessState({required this.data});
+enum NoteStatus {
+  success,
+  failure,
+  loading;
 }
 
 sealed class NoteEvent {}
 
-class InsertNoteEvent extends NoteEvent {}
+class InsertNote extends NoteEvent {
+  final String title;
+  final String description;
 
-class DeleteNoteEvent extends NoteEvent {}
+  InsertNote({required this.title, required this.description});
+}
 
-class GetNoteEvent extends NoteEvent {}
+class RemoveNote extends NoteEvent {
+  final int id;
+
+  RemoveNote({required this.id});
+}
