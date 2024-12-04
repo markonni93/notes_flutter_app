@@ -46,6 +46,7 @@ class _NoteListState extends State<NoteList> {
             }
             return ListView.builder(
               itemBuilder: (BuildContext context, int index) {
+                print("Index is $index and length ${state.notes.length}");
                 return index >= state.notes.length
                     ? const Center(
                         child: SizedBox(

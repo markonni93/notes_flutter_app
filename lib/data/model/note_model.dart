@@ -6,6 +6,6 @@ class NoteModel {
   NoteModel({required this.id, required this.note, required this.title});
 
   Map<String, Object?> toMap() {
-    return {'id': id, 'note': note, 'title': title};
+    return {'note': note, 'title': title};
   }
 }

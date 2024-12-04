@@ -20,9 +20,9 @@ class NotesRepository {
     return notes.map((model) => NoteUiModel.fromNoteModel(model)).toList();
   }
 
-  Future<void> insertNotes(List<NoteModel> items) async {
+  Future<void> insertNote(NoteModel item) async {
     try {
-      await _notesDataProvider.insertNotes(items);
+      await _notesDataProvider.insertNote(item);
     } catch (e) {
       throw Exception("Failed to insert items in db $e");
     }

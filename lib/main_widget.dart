@@ -51,7 +51,7 @@ class MainWidget extends StatelessWidget {
 Route _constructCreateScreenRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
-        const CreateScreen(),
+        const CreateNoteScreen(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0); // Start position (bottom of screen)
       const end = Offset.zero; // End position (current screen)

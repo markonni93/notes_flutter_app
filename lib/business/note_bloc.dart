@@ -11,15 +11,15 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
   Future<void> _insertNote(InsertNote event, Emitter<NoteState> emit) async {
     try {
-      List<NoteModel> list = [];
+      if (event.description.isEmpty && event.title.isEmpty) {
+        emit(state.copyWith(status: NoteStatus.discarded));
+      } else {
+        final model =
+            NoteModel(id: 1, note: event.description, title: event.title);
 
-      for (var i = 0; i < 100; i++) {
-        list.add(NoteModel(
-            id: i, note: "Description for my $i note", title: "My $i note"));
+        await repository.insertNote(model);
+        emit(state.copyWith(status: NoteStatus.success));
       }
-
-      await repository.insertNotes(list);
-      emit(state.copyWith(status: NoteStatus.success));
     } catch (e) {
       print("Error happened $e");
       emit(state.copyWith(status: NoteStatus.failure));
@@ -40,7 +40,8 @@ final class NoteState {
 enum NoteStatus {
   success,
   failure,
-  loading;
+  loading,
+  discarded;
 }
 
 sealed class NoteEvent {}

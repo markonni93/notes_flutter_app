@@ -13,7 +13,7 @@ class NotesDataProvider {
     return openDatabase(join(await getDatabasesPath(), _db_name),
         onCreate: (db, version) {
       return db.execute(
-        'CREATE TABLE $_notes_db_table_name(id INTEGER PRIMARY KEY, note TEXT, title TEXT)',
+        'CREATE TABLE $_notes_db_table_name(id INTEGER PRIMARY KEY AUTOINCREMENT, note TEXT, title TEXT)',
       );
     }, version: _db_version);
   }
@@ -50,16 +50,12 @@ class NotesDataProvider {
     ];
   }
 
-  Future<void> insertNotes(List<NoteModel> items) async {
+  Future<void> insertNote(NoteModel item) async {
     final db = await _database();
 
     try {
-      await db.transaction((transaction) async {
-        for (var note in items) {
-          await transaction.insert(_notes_db_table_name, note.toMap(),
-              conflictAlgorithm: ConflictAlgorithm.replace);
-        }
-      });
+      await db.insert(_notes_db_table_name, item.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace);
     } catch (e) {
       throw Exception(e);
     }
