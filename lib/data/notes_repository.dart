@@ -14,6 +14,12 @@ class NotesRepository {
     return notes.map((model) => NoteUiModel.fromNoteModel(model)).toList();
   }
 
+  Future<List<NoteUiModel>> getNotesPaginated(int offset) async {
+    final notes = await _notesDataProvider.getNotesPaginated(offset);
+
+    return notes.map((model) => NoteUiModel.fromNoteModel(model)).toList();
+  }
+
   Future<void> insertNotes(List<NoteModel> items) async {
     try {
       await _notesDataProvider.insertNotes(items);

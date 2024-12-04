@@ -9,13 +9,17 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   NoteBloc(this._repository) : super(NoteLoadingState()) {
     on<InsertNoteEvent>((state, emit) async {
       try {
-        await _repository.insertNotes([
-          NoteModel(
-              id: 1, note: "My first note description", title: "First NOTE"),
-          NoteModel(
-              id: 2, note: "My second note description", title: "Second NOTE"),
-        ]);
+        List<NoteModel> list = [];
+
+        for (var i = 0; i < 100; i++) {
+          list.add(NoteModel(
+              id: i, note: "Description for my $i note", title: "My $i note"));
+        }
+
+        await _repository.insertNotes(list);
+        emit(NoteSuccessState(data: []));
       } catch (e) {
+        print("Error happened $e");
         emit(NoteErrorState(error: e.toString()));
       }
     });

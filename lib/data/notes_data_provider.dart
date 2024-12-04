@@ -18,6 +18,22 @@ class NotesDataProvider {
     }, version: _db_version);
   }
 
+  Future<List<NoteModel>> getNotesPaginated(int offset) async {
+    final db = await _database();
+
+    final List<Map<String, Object?>> notes =
+        await db.query(_notes_db_table_name, limit: 10, offset: offset);
+
+    return [
+      for (final {
+            'id': id as int,
+            'note': description as String,
+            'title': title as String
+          } in notes)
+        NoteModel(id: id, note: description, title: title)
+    ];
+  }
+
   Future<List<NoteModel>> getNotes() async {
     final db = await _database();
 
@@ -40,7 +56,8 @@ class NotesDataProvider {
     try {
       await db.transaction((transaction) async {
         for (var note in items) {
-          await transaction.insert(_notes_db_table_name, note.toMap());
+          await transaction.insert(_notes_db_table_name, note.toMap(),
+              conflictAlgorithm: ConflictAlgorithm.replace);
         }
       });
     } catch (e) {
