@@ -35,12 +35,12 @@ class _NoteListState extends State<NoteList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, NoteState>(
+    return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         switch (state.status) {
-          case NoteStatus.initial:
+          case HomeStatus.initial:
             return const Center(child: CircularProgressIndicator());
-          case NoteStatus.success:
+          case HomeStatus.success:
             if (state.notes.isEmpty) {
               return const Center(child: Text('no notes'));
             }
@@ -60,7 +60,7 @@ class _NoteListState extends State<NoteList> {
                   : state.notes.length + 1,
               controller: _scrollController,
             );
-          case NoteStatus.failure:
+          case HomeStatus.failure:
             return const Center(child: Text('failed to fetch notes'));
         }
       },

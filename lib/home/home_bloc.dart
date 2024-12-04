@@ -3,20 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/data/notes_repository.dart';
 import 'package:flutter_notes/data/model/ui/note_ui_model.dart';
 
-class HomeBloc extends Bloc<NotesEvent, NoteState> {
-  HomeBloc({required this.repository}) : super(const NoteState()) {
+class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  HomeBloc({required this.repository}) : super(const HomeState()) {
     on<NotesFetched>(_onNotesFetched);
   }
 
   Future<void> _onNotesFetched(
-      NotesFetched event, Emitter<NoteState> emit) async {
+      NotesFetched event, Emitter<HomeState> emit) async {
     if (state.hasReachedMax) return;
 
     try {
-      if (state.status == NoteStatus.initial) {
+      if (state.status == HomeStatus.initial) {
         final notes = await repository.getNotesPaginated(0);
         return emit(state.copyWith(
-            status: NoteStatus.success, notes: notes, hasReachedMax: false));
+            status: HomeStatus.success, notes: notes, hasReachedMax: false));
       }
 
       final notes = await repository.getNotesPaginated(state.notes.length);
@@ -24,39 +24,39 @@ class HomeBloc extends Bloc<NotesEvent, NoteState> {
       emit(notes.isEmpty
           ? state.copyWith(hasReachedMax: true)
           : state.copyWith(
-              status: NoteStatus.success,
+              status: HomeStatus.success,
               notes: List.of(state.notes)..addAll(notes),
               hasReachedMax: false));
     } catch (e) {
-      emit(state.copyWith(status: NoteStatus.failure));
+      emit(state.copyWith(status: HomeStatus.failure));
     }
   }
 
   final NotesRepository repository;
 }
 
-sealed class NotesEvent extends Equatable {
+sealed class HomeEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-final class NotesFetched extends NotesEvent {}
+final class NotesFetched extends HomeEvent {}
 
-enum NoteStatus { initial, success, failure }
+enum HomeStatus { initial, success, failure }
 
-final class NoteState extends Equatable {
-  const NoteState(
-      {this.status = NoteStatus.initial,
+final class HomeState extends Equatable {
+  const HomeState(
+      {this.status = HomeStatus.initial,
       this.notes = const <NoteUiModel>[],
       this.hasReachedMax = false});
 
-  final NoteStatus status;
+  final HomeStatus status;
   final List<NoteUiModel> notes;
   final bool hasReachedMax;
 
-  NoteState copyWith(
-      {NoteStatus? status, List<NoteUiModel>? notes, bool? hasReachedMax}) {
-    return NoteState(
+  HomeState copyWith(
+      {HomeStatus? status, List<NoteUiModel>? notes, bool? hasReachedMax}) {
+    return HomeState(
         status: status ?? this.status,
         notes: notes ?? this.notes,
         hasReachedMax: hasReachedMax ?? this.hasReachedMax);
