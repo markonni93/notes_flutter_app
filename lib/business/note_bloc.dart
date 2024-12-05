@@ -14,8 +14,11 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       if (event.description.isEmpty && event.title.isEmpty) {
         emit(state.copyWith(status: NoteStatus.discarded));
       } else {
-        final model =
-            NoteModel(id: 1, note: event.description, title: event.title);
+        final model = NoteModel(
+            id: 1,
+            note: event.description,
+            title: event.title,
+            createdAt: DateTime.now().toIso8601String());
 
         await repository.insertNote(model);
         emit(state.copyWith(status: NoteStatus.success));

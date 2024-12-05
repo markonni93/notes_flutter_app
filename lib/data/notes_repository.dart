@@ -8,16 +8,16 @@ class NotesRepository {
 
   final NotesDataProvider _notesDataProvider;
 
-  Future<List<NoteUiModel>> getNotes() async {
-    final notes = await _notesDataProvider.getNotes();
+  Future<List<NoteUiModel>> getNotes(int offset) async {
+    final notes = await _notesDataProvider.getNotes(offset);
 
     return notes.map((model) => NoteUiModel.fromNoteModel(model)).toList();
   }
 
-  Future<List<NoteUiModel>> getNotesPaginated(int offset) async {
-    final notes = await _notesDataProvider.getNotesPaginated(offset);
+  Future<NoteUiModel> getLatestNote() async {
+    final note = await _notesDataProvider.getLatestNote();
 
-    return notes.map((model) => NoteUiModel.fromNoteModel(model)).toList();
+    return NoteUiModel.fromNoteModel(note);
   }
 
   Future<void> insertNote(NoteModel item) async {

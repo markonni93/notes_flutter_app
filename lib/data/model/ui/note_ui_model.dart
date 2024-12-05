@@ -5,14 +5,20 @@ final class NoteUiModel extends Equatable {
   final int id;
   final String note;
   final String title;
+  final String createdAt;
 
-  const NoteUiModel({required this.id, required this.note, required this.title});
+  const NoteUiModel(
+      {required this.id,
+      required this.note,
+      required this.title,
+      required this.createdAt});
 
   NoteUiModel.fromNoteModel(NoteModel model)
       : id = model.id,
         note = model.note,
-        title = model.title;
+        title = model.title,
+        createdAt = model.createdAt;
 
   @override
-  List<Object?> get props => [id, note, title];
+  List<Object?> get props => [id, note, title, createdAt];
 }

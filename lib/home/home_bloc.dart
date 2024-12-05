@@ -1,25 +1,25 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/data/notes_repository.dart';
 import 'package:flutter_notes/data/model/ui/note_ui_model.dart';
+import 'package:flutter_notes/data/notes_repository.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({required this.repository}) : super(const HomeState()) {
     on<NotesFetched>(_onNotesFetched);
+    on<NewNoteInserted>(_onNewNoteInserted);
   }
 
-  Future<void> _onNotesFetched(
-      NotesFetched event, Emitter<HomeState> emit) async {
+  Future<void> _onNotesFetched(HomeEvent event, Emitter<HomeState> emit) async {
     if (state.hasReachedMax) return;
 
     try {
       if (state.status == HomeStatus.initial) {
-        final notes = await repository.getNotesPaginated(0);
+        final notes = await repository.getNotes(0);
         return emit(state.copyWith(
             status: HomeStatus.success, notes: notes, hasReachedMax: false));
       }
 
-      final notes = await repository.getNotesPaginated(state.notes.length);
+      final notes = await repository.getNotes(state.notes.length);
 
       emit(notes.isEmpty
           ? state.copyWith(hasReachedMax: true)
@@ -27,6 +27,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               status: HomeStatus.success,
               notes: List.of(state.notes)..addAll(notes),
               hasReachedMax: false));
+    } catch (e) {
+      emit(state.copyWith(status: HomeStatus.failure));
+    }
+  }
+
+  Future<void> _onNewNoteInserted(
+      NewNoteInserted event, Emitter<HomeState> emit) async {
+    try {
+      final note = await repository.getLatestNote();
+
+      return emit(state.copyWith(
+          status: HomeStatus.success,
+          notes: List.of([note])..addAll(state.notes),
+          hasReachedMax: false));
     } catch (e) {
       emit(state.copyWith(status: HomeStatus.failure));
     }
