@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/data/remote/product_repository.dart';
@@ -12,6 +16,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  final auth = FirebaseAuth.instanceFor(app: Firebase.app());
+  if (kIsWeb) {
+    await auth.setPersistence(Persistence.NONE);
+  }
+
   runApp(const NoteApp());
 }
 
