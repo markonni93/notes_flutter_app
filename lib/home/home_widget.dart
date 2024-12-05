@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/notes_repository.dart';
+
 import 'home_bloc.dart';
 
 class HomeWidget extends StatelessWidget {
@@ -9,11 +8,7 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (_) => HomeBloc(
-            repository: RepositoryProvider.of<NotesRepository>(context))
-          ..add(NotesFetched()),
-        child: const NoteList());
+    return const NoteList();
   }
 }
 
@@ -46,7 +41,6 @@ class _NoteListState extends State<NoteList> {
             }
             return ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                print("Index is $index and length ${state.notes.length}");
                 return index >= state.notes.length
                     ? const Center(
                         child: SizedBox(
@@ -54,7 +48,9 @@ class _NoteListState extends State<NoteList> {
                         width: 24,
                         child: CircularProgressIndicator(strokeWidth: 1.5),
                       ))
-                    : Padding(padding: const EdgeInsets.all(32.0), child: Text(state.notes[index].title));
+                    : Padding(
+                        padding: const EdgeInsets.all(32.0),
+                        child: Text(state.notes[index].title));
               },
               itemCount: state.hasReachedMax
                   ? state.notes.length

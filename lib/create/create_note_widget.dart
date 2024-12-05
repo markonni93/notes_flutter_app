@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/home/home_bloc.dart';
 
 import '../../business/note_bloc.dart';
 import '../data/notes_repository.dart';
@@ -30,20 +31,13 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         child: BlocConsumer<NoteBloc, NoteState>(listener: (context, state) {
           switch (state.status) {
             case NoteStatus.success:
-              Navigator.of(context).pop();
+              Navigator.pop(context, state.status);
             case NoteStatus.failure:
-              const snackBar = SnackBar(
-                content: Text('Error happened!}'),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              Navigator.pop(context, state.status);
             case NoteStatus.loading:
               break;
             case NoteStatus.discarded:
-              const snackBar = SnackBar(
-                content: Text('Empty note discarded!}'),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              Navigator.of(context).pop();
+              Navigator.pop(context, state.status);
           }
         }, builder: (context, state) {
           return SafeArea(

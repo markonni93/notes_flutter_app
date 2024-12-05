@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/business/note_bloc.dart';
+import 'package:flutter_notes/home/home_bloc.dart';
 import 'package:flutter_notes/main_bloc.dart';
 import 'package:flutter_notes/settings/settings_widget.dart';
 
 import 'create/create_note_widget.dart';
+import 'data/notes_repository.dart';
 import 'home/home_widget.dart';
 
 class MainWidget extends StatelessWidget {
@@ -11,8 +14,15 @@ class MainWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) => MainWidgetBloc(),
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<MainWidgetBloc>(
+              create: (BuildContext context) => MainWidgetBloc()),
+          BlocProvider<HomeBloc>(
+              create: (BuildContext context) => HomeBloc(
+                  repository: RepositoryProvider.of<NotesRepository>(context))
+                ..add(NotesFetched())),
+        ],
         child: BlocBuilder<MainWidgetBloc, MainWidgetState>(
             builder: (context, state) {
           return SafeArea(
@@ -29,8 +39,7 @@ class MainWidget extends StatelessWidget {
                   ),
                   floatingActionButton: FloatingActionButton(
                       child: const Icon(Icons.add),
-                      onPressed: () => Navigator.of(context)
-                          .push(_constructCreateScreenRoute())),
+                      onPressed: () => _navigateToCreateNoteScreen(context)),
                   floatingActionButtonAnimator:
                       FloatingActionButtonAnimator.scaling,
                   bottomNavigationBar: NavigationBar(
@@ -45,6 +54,31 @@ class MainWidget extends StatelessWidget {
                               ))
                           .toList())));
         }));
+  }
+}
+
+Future<void> _navigateToCreateNoteScreen(BuildContext context) async {
+  final result = await Navigator.push(context, _constructCreateScreenRoute());
+
+  if (!context.mounted) return;
+
+  switch (result) {
+    case NoteStatus.success:
+      context.read<HomeBloc>().add(NewNoteInserted());
+      break;
+    case NoteStatus.failure:
+      const snackBar = SnackBar(
+        content: Text('Error inserting note!'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      break;
+    case NoteStatus.discarded:
+      const snackBar = SnackBar(
+        content: Text('Empty note discarded!'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    default:
+      break;
   }
 }
 

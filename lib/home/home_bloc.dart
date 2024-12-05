@@ -42,6 +42,8 @@ sealed class HomeEvent extends Equatable {
 
 final class NotesFetched extends HomeEvent {}
 
+final class NewNoteInserted extends HomeEvent {}
+
 enum HomeStatus { initial, success, failure }
 
 final class HomeState extends Equatable {
