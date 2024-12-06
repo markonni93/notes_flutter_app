@@ -27,6 +27,7 @@ class AuthenticationRepository {
 
   Stream<NoteUser> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
+      print("Status changed");
       final user = firebaseUser == null
           ? NoteUser.empty
           : NoteUser.fromFirebaseUser(firebaseUser);
@@ -57,7 +58,6 @@ class AuthenticationRepository {
           idToken: googleAuth.idToken,
         );
       }
-
       await _firebaseAuth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
