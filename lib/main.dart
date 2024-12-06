@@ -10,6 +10,7 @@ import 'package:flutter_notes/auth/repository/auth_repository.dart';
 import 'package:flutter_notes/auth/ui/auth_widget.dart';
 import 'package:flutter_notes/data/notes_cache_manager.dart';
 import 'package:flutter_notes/main_widget.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'app/app_state.dart';
 import 'data/notes_repository.dart';
@@ -43,22 +44,19 @@ class NoteApp extends StatelessWidget {
           RepositoryProvider<NotesCacheManager>(
               create: (context) => NotesCacheManagerImpl()),
           RepositoryProvider<AuthenticationRepository>(
-            create: (context) =>
-                AuthenticationRepository(
-                    cache: RepositoryProvider.of<NotesCacheManager>(context)),
+            create: (context) => AuthenticationRepository(
+                cache: RepositoryProvider.of<NotesCacheManager>(context),
+                firebaseAuth: FirebaseAuth.instance,
+                googleSignIn: GoogleSignIn(scopes: ['profile', 'email'])),
           )
         ],
         child: BlocProvider(
             lazy: false,
-            create: (context) =>
-            AppBloc(
+            create: (context) => AppBloc(
                 authenticationRepository:
-                RepositoryProvider.of<AuthenticationRepository>(context))
+                    RepositoryProvider.of<AuthenticationRepository>(context))
               ..add(const AppUserSubscriptionRequested()),
-            child: const AppView()
-        )
-
-    );
+            child: const AppView()));
   }
 }
 
@@ -82,7 +80,7 @@ class AppView extends StatelessWidget {
 
 List<Page> _onGenerateViewPages(AuthStatus status, List pages) {
   return [
-    switch(status) {
+    switch (status) {
       AuthStatus.authenticated => const MaterialPage(child: MainWidget()),
       AuthStatus.unauthenticated => const MaterialPage(child: AuthWidget()),
     }

@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:522702049030:android:807e116c1997a1b0089887",
         "android_client_info": {
-          "package_name": "com.thequicknotes"
+          "package_name": "com.thequicknotes.flutter_notes"
         }
       },
       "oauth_client": [],

@@ -9,11 +9,11 @@ import 'auth_exception.dart';
 class AuthenticationRepository {
   AuthenticationRepository(
       { required NotesCacheManager cache,
-      FirebaseAuth? firebaseAuth,
-      GoogleSignIn? googleSignIn})
+      required FirebaseAuth firebaseAuth,
+      required GoogleSignIn googleSignIn})
       : _cache = cache,
-        _googleSignIn = googleSignIn ?? GoogleSignIn.standard(),
-        _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+        _googleSignIn = googleSignIn,
+        _firebaseAuth = firebaseAuth;
 
   final NotesCacheManager _cache;
   final FirebaseAuth _firebaseAuth;
