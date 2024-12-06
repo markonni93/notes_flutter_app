@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_notes/auth/repository/model/user.dart';
+import 'package:quick_notes/auth/repository/model/user.dart';
 
 enum AuthStatus { authenticated, unauthenticated }
 

@@ -4,12 +4,12 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/app/app_bloc.dart';
-import 'package:flutter_notes/app/app_event.dart';
-import 'package:flutter_notes/auth/repository/auth_repository.dart';
-import 'package:flutter_notes/auth/ui/auth_widget.dart';
-import 'package:flutter_notes/data/notes_cache_manager.dart';
-import 'package:flutter_notes/main_widget.dart';
+import 'package:quick_notes/app/app_bloc.dart';
+import 'package:quick_notes/app/app_event.dart';
+import 'package:quick_notes/auth/repository/auth_repository.dart';
+import 'package:quick_notes/auth/ui/auth_widget.dart';
+import 'package:quick_notes/data/notes_cache_manager.dart';
+import 'package:quick_notes/main_widget.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'app/app_state.dart';

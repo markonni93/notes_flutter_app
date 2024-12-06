@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/app/app_event.dart';
-import 'package:flutter_notes/app/app_state.dart';
-import 'package:flutter_notes/auth/repository/auth_repository.dart';
-import 'package:flutter_notes/auth/repository/model/user.dart';
+import 'package:quick_notes/app/app_event.dart';
+import 'package:quick_notes/app/app_state.dart';
+import 'package:quick_notes/auth/repository/auth_repository.dart';
+import 'package:quick_notes/auth/repository/model/user.dart';
 
 class AppBloc extends Bloc<AppEvent, AppState> {
   AppBloc({required AuthenticationRepository authenticationRepository})
@@ -21,6 +21,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   void _onLogoutPressed(LogoutRequested event, Emitter<AppState> emit) {
-    _repository.logInWithGoogle();
+    // TODO Implement logout
   }
 }

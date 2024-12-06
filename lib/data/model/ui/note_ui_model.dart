@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_notes/data/model/note_model.dart';
+import 'package:quick_notes/data/model/note_model.dart';
 
 final class NoteUiModel extends Equatable {
   final int id;

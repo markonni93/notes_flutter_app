@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter_notes/data/model/note_model.dart';
+import 'package:quick_notes/data/model/note_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

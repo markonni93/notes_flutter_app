@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/business/note_bloc.dart';
-import 'package:flutter_notes/home/home_bloc.dart';
-import 'package:flutter_notes/main_bloc.dart';
-import 'package:flutter_notes/settings/settings_widget.dart';
+import 'package:quick_notes/business/note_bloc.dart';
+import 'package:quick_notes/home/home_bloc.dart';
+import 'package:quick_notes/main_bloc.dart';
+import 'package:quick_notes/settings/settings_widget.dart';
 
 import 'create/create_note_widget.dart';
 import 'data/notes_repository.dart';

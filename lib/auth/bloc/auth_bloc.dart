@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/auth/repository/auth_repository.dart';
+import 'package:quick_notes/auth/repository/auth_repository.dart';
 
 import '../repository/auth_exception.dart';
 
@@ -14,7 +14,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onStartSignup(
       SignupUserEvent event, Emitter<AuthState> emit) async {
     try {
-      repository.logInWithGoogle();
+      await repository.logInWithGoogle();
+      emit(state.copyWith(status: SignupStatus.success));
     } on LogInWithGoogleFailure catch (loginFailure) {
       emit(state.copyWith(status: SignupStatus.failure, error: loginFailure.message));
     } catch (e) {
