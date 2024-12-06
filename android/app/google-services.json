@@ -9,10 +9,23 @@
       "client_info": {
         "mobilesdk_app_id": "1:522702049030:android:807e116c1997a1b0089887",
         "android_client_info": {
-          "package_name": "com.thequicknotes.flutter_notes"
+          "package_name": "com.thequicknotes"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "522702049030-8ep29j1slfrilpkcq9nt2m185mov1ktt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thequicknotes",
+            "certificate_hash": "8a9e59da1cb4975eb8d035878cca96b905d3ba14"
+          }
+        },
+        {
+          "client_id": "522702049030-ga7kd8ejac0tq3fbcgn691um5d9j1q10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCGOdlokNIa5o0pPYs_2t9tcj-pGmU2WjE"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522702049030-ga7kd8ejac0tq3fbcgn691um5d9j1q10.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "522702049030-pm8ukdricrnfhoetbpv12ebm9bau84db.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.thequicknotes.flutterNotes"
+              }
+            }
+          ]
         }
       }
     }
