@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/auth/auth_widget.dart';
+import 'package:flutter_notes/auth/ui/auth_widget.dart';
 import 'package:flutter_notes/business/note_bloc.dart';
 import 'package:flutter_notes/home/home_bloc.dart';
 import 'package:flutter_notes/main_bloc.dart';

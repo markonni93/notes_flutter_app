@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/data/remote/product_repository.dart';
+import 'package:flutter_notes/auth/repository/auth_repository.dart';
+import 'package:flutter_notes/data/notes_cache_manager.dart';
 import 'package:flutter_notes/main_widget.dart';
 
 import 'data/notes_repository.dart';
@@ -35,9 +34,11 @@ class NoteApp extends StatelessWidget {
           RepositoryProvider<NotesRepository>(
             create: (context) => NotesRepository(),
           ),
-          RepositoryProvider<ProductRepository>(
-            create: (context) => ProductRepositoryImpl(),
-          )
+          RepositoryProvider<AuthenticationRepository>(
+            create: (context) => AuthenticationRepository(),
+          ),
+          RepositoryProvider<NotesCacheManager>(
+              create: (context) => NotesCacheManagerImpl())
         ],
         child: MaterialApp(
           title: "Note App",
