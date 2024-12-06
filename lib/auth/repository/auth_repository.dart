@@ -8,10 +8,10 @@ import 'auth_exception.dart';
 
 class AuthenticationRepository {
   AuthenticationRepository(
-      {NotesCacheManager? cache,
+      { required NotesCacheManager cache,
       FirebaseAuth? firebaseAuth,
       GoogleSignIn? googleSignIn})
-      : _cache = cache ?? NotesCacheManagerImpl(),
+      : _cache = cache,
         _googleSignIn = googleSignIn ?? GoogleSignIn.standard(),
         _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
@@ -30,6 +30,7 @@ class AuthenticationRepository {
       final user = firebaseUser == null
           ? NoteUser.empty
           : NoteUser.fromFirebaseUser(firebaseUser);
+      print("User is $user");
       _cache.insertUser(user);
       return user;
     });

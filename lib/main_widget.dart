@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/auth/ui/auth_widget.dart';
 import 'package:flutter_notes/business/note_bloc.dart';
 import 'package:flutter_notes/home/home_bloc.dart';
 import 'package:flutter_notes/main_bloc.dart';
@@ -18,7 +17,7 @@ class MainWidget extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider<MainWidgetBloc>(
-              create: (BuildContext context) => MainWidgetBloc()..add(CheckAuth())),
+              create: (BuildContext context) => MainWidgetBloc()),
           BlocProvider<HomeBloc>(
               create: (BuildContext context) => HomeBloc(
                   repository: RepositoryProvider.of<NotesRepository>(context))
@@ -26,40 +25,34 @@ class MainWidget extends StatelessWidget {
         ],
         child: BlocBuilder<MainWidgetBloc, MainWidgetState>(
             builder: (context, state) {
-          switch (state) {
-            case StartLogin():
-              return const AuthWidget();
-            default:
-              return SafeArea(
-                  child: Scaffold(
-                      body: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        transitionBuilder: (child, animation) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        },
-                        child: _getWidgetForIndex(state.currentIndex),
-                      ),
-                      floatingActionButton: FloatingActionButton(
-                          child: const Icon(Icons.add),
-                          onPressed: () =>
-                              _navigateToCreateNoteScreen(context)),
-                      floatingActionButtonAnimator:
-                          FloatingActionButtonAnimator.scaling,
-                      bottomNavigationBar: NavigationBar(
-                          selectedIndex: state.currentIndex,
-                          onDestinationSelected: (index) => context
-                              .read<MainWidgetBloc>()
-                              .add(TabClickedEvent(index: index)),
-                          destinations: MainBottomBarItem.values
-                              .map((e) => NavigationDestination(
-                                    icon: Icon(e.icon),
-                                    label: e.title,
-                                  ))
-                              .toList())));
-          }
+          return SafeArea(
+              child: Scaffold(
+                  body: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    transitionBuilder: (child, animation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                    child: _getWidgetForIndex(state.currentIndex),
+                  ),
+                  floatingActionButton: FloatingActionButton(
+                      child: const Icon(Icons.add),
+                      onPressed: () => _navigateToCreateNoteScreen(context)),
+                  floatingActionButtonAnimator:
+                      FloatingActionButtonAnimator.scaling,
+                  bottomNavigationBar: NavigationBar(
+                      selectedIndex: state.currentIndex,
+                      onDestinationSelected: (index) => context
+                          .read<MainWidgetBloc>()
+                          .add(TabClickedEvent(index: index)),
+                      destinations: MainBottomBarItem.values
+                          .map((e) => NavigationDestination(
+                                icon: Icon(e.icon),
+                                label: e.title,
+                              ))
+                          .toList())));
         }));
   }
 }

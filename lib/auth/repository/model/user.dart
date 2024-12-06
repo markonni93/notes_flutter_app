@@ -16,7 +16,7 @@ class NoteUser extends Equatable {
   });
 
   // Static empty user to avoid dealing with null
-  static const empty = NoteUser(id: '');
+  static const empty = NoteUser(id: 'empty');
 
   // Check if the user is empty
   bool get isEmpty => this == NoteUser.empty;
