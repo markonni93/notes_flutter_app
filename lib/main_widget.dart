@@ -37,9 +37,11 @@ class MainWidget extends StatelessWidget {
                     },
                     child: _getWidgetForIndex(state.currentIndex),
                   ),
-                  floatingActionButton: FloatingActionButton(
-                      child: const Icon(Icons.add),
-                      onPressed: () => _navigateToCreateNoteScreen(context)),
+                  floatingActionButton: state.currentIndex == 0
+                      ? FloatingActionButton(
+                          child: const Icon(Icons.add),
+                          onPressed: () => _navigateToCreateNoteScreen(context))
+                      : null,
                   floatingActionButtonAnimator:
                       FloatingActionButtonAnimator.scaling,
                   bottomNavigationBar: NavigationBar(
