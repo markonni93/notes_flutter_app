@@ -1,21 +1,21 @@
-import 'package:equatable/equatable.dart';
 import 'package:quick_notes/auth/repository/model/user.dart';
 
-enum AuthStatus { authenticated, unauthenticated }
+enum AuthStatus { authenticated, unauthenticated, notInitialised }
 
-final class AppState extends Equatable {
-  const AppState({NoteUser user = NoteUser.empty})
+final class AppState {
+
+  const AppState({required AuthStatus status})
+      : this._(status: status, user: null);
+
+  const AppState.withUser({NoteUser? user})
       : this._(
-            status: user == NoteUser.empty
+            status: user == null
                 ? AuthStatus.unauthenticated
                 : AuthStatus.authenticated,
             user: user);
 
-  const AppState._({required this.status, this.user = NoteUser.empty});
+  const AppState._({required this.status, this.user});
 
   final AuthStatus status;
-  final NoteUser user;
-
-  @override
-  List<Object> get props => [status, user];
+  final NoteUser? user;
 }

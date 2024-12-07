@@ -25,18 +25,20 @@ class AuthenticationRepository {
   @visibleForTesting
   static const userCacheKey = '__user_cache_key__';
 
-  Stream<NoteUser> get user {
+  Stream<NoteUser?> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      final user = firebaseUser == null
-          ? NoteUser.empty
-          : NoteUser.fromFirebaseUser(firebaseUser);
-      _cache.insertUser(user);
-      return user;
+      if (firebaseUser != null) {
+        final user = NoteUser.fromFirebaseUser(firebaseUser);
+        _cache.insertUser(user);
+        return user;
+      } else {
+        return null;
+      }
     });
   }
 
-  Future<NoteUser> get currentUser async {
-    return await _cache.getUser() ?? NoteUser.empty;
+  Future<NoteUser?> get currentUser async {
+    return await _cache.getUser();
   }
 
   Future<void> logInWithGoogle() async {

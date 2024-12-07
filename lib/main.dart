@@ -83,6 +83,8 @@ List<Page> _onGenerateViewPages(AuthStatus status, List pages) {
     switch (status) {
       AuthStatus.authenticated => const MaterialPage(child: MainWidget()),
       AuthStatus.unauthenticated => const MaterialPage(child: AuthWidget()),
+      AuthStatus.notInitialised =>
+        const MaterialPage(child: CircularProgressIndicator())
     }
   ];
 }

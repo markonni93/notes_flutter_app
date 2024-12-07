@@ -15,15 +15,9 @@ class NoteUser extends Equatable {
     this.photo,
   });
 
-  // Static empty user to avoid dealing with null
-  static const empty = NoteUser(id: 'empty');
-
   static const defaultUser = NoteUser(id: "default", name: "Guest");
 
-  // Check if the user is empty
-  bool get isEmpty => this == NoteUser.empty;
-
-  bool get isNotEmpty => this != NoteUser.empty;
+  bool get isDefault => this.id == "default";
 
   @override
   List<Object?> get props => [id, email, name, photo];

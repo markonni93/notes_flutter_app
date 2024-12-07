@@ -29,7 +29,7 @@ final class NotesCacheManagerImpl implements NotesCacheManager {
     final String? userJson = await _asyncPrefs.getString(_userKey);
 
     if (userJson == null) {
-      return NoteUser.empty;
+      return null;
     }
 
     final Map<String, dynamic> userMap = jsonDecode(userJson);
