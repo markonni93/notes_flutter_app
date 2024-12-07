@@ -10,6 +10,8 @@ abstract class NotesCacheManager {
   Future<NoteUser?> getUser();
 
   Future<void> removeUser();
+
+  Future<void> insertDefaultUser();
 }
 
 final class NotesCacheManagerImpl implements NotesCacheManager {
@@ -37,6 +39,13 @@ final class NotesCacheManagerImpl implements NotesCacheManager {
 
   Future<void> removeUserFromPreferences() async {
     await _asyncPrefs.remove(_userKey);
+  }
+
+  @override
+  Future<void> insertDefaultUser() async {
+    final String defaultUserJson = jsonEncode(NoteUser.defaultUser.toJson());
+    print("inserting user in prefs");
+    await _asyncPrefs.setString(_userKey, defaultUserJson);
   }
 
   @override

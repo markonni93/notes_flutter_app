@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quick_notes/auth/repository/model/user.dart';
 import 'package:quick_notes/data/notes_cache_manager.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import 'auth_exception.dart';
 
 class AuthenticationRepository {
   AuthenticationRepository(
-      { required NotesCacheManager cache,
+      {required NotesCacheManager cache,
       required FirebaseAuth firebaseAuth,
       required GoogleSignIn googleSignIn})
       : _cache = cache,
@@ -27,11 +27,9 @@ class AuthenticationRepository {
 
   Stream<NoteUser> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      print("Status changed");
       final user = firebaseUser == null
           ? NoteUser.empty
           : NoteUser.fromFirebaseUser(firebaseUser);
-      print("User is $user");
       _cache.insertUser(user);
       return user;
     });
@@ -64,5 +62,9 @@ class AuthenticationRepository {
     } catch (_) {
       throw const LogInWithGoogleFailure();
     }
+  }
+
+  Future<void> continueWithoutSignup() async {
+    return await _cache.insertDefaultUser();
   }
 }

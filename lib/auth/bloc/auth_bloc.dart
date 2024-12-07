@@ -25,6 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onContinueWithoutSignup(
       ContinueWithoutSignupEvent event, Emitter<AuthState> emit) async {
+    await repository.continueWithoutSignup();
     emit(state.copyWith(status: SignupStatus.skipSignup));
   }
 }
