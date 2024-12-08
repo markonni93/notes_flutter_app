@@ -69,4 +69,15 @@ class AuthenticationRepository {
   Future<void> continueWithoutSignup() async {
     return await _cache.insertDefaultUser();
   }
+
+  Future<void> logoutCurrentUser() async {
+    try {
+      await Future.wait([
+        _firebaseAuth.signOut(),
+        _googleSignIn.signOut(),
+      ]);
+    } catch (_) {
+      throw Exception("Something went wrong");
+    }
+  }
 }

@@ -17,12 +17,10 @@ class AuthWidget extends StatelessWidget {
         child: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
           switch (state.status) {
             case SignupStatus.notStarted:
-              print("Signup not started");
             case SignupStatus.success:
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const MainWidget()));
             case SignupStatus.failure:
-              print("Error happened ${state.error}");
             case SignupStatus.skipSignup:
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const MainWidget()));
