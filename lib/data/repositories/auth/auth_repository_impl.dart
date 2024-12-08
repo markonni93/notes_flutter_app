@@ -3,10 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quick_notes/data/repositories/auth/auth_repository.dart';
 
-import '../../../auth/repository/auth_exception.dart';
-import '../../../domain/models/user.dart';
 import '../../../util/result.dart';
 import '../../notes_cache_manager.dart';
+import 'auth_exception.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(

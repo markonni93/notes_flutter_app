@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_notes/auth/repository/auth_repository.dart';
 
-import '../repository/auth_exception.dart';
+import '../../data/repositories/auth/auth_exception.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthenticationRepository repository;
