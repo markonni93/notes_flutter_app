@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_notes/auth/repository/auth_repository.dart';
 
-import '../auth/repository/model/user.dart';
+import '../domain/models/user.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc({required this.repository}) : super(const SettingsState()) {

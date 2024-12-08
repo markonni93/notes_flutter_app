@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../auth/repository/model/user.dart';
+import '../domain/models/user.dart';
 
 abstract class NotesCacheManager {
   Future<void> insertUser(NoteUser user);

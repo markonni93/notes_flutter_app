@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:quick_notes/auth/repository/model/user.dart';
 import 'package:quick_notes/data/notes_cache_manager.dart';
 
+import '../../domain/models/user.dart';
 import 'auth_exception.dart';
 
 class AuthenticationRepository {

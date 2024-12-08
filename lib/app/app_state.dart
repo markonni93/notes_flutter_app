@@ -1,4 +1,4 @@
-import 'package:quick_notes/auth/repository/model/user.dart';
+import '../domain/models/user.dart';
 
 enum AuthStatus { authenticated, unauthenticated, notInitialised }
 

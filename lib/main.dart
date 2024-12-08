@@ -4,15 +4,18 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_notes/app/app_bloc.dart';
 import 'package:quick_notes/app/app_event.dart';
 import 'package:quick_notes/auth/repository/auth_repository.dart';
 import 'package:quick_notes/auth/ui/auth_widget.dart';
 import 'package:quick_notes/data/notes_cache_manager.dart';
 import 'package:quick_notes/main_widget.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:quick_notes/routing/notes_app_router.dart';
 
 import 'app/app_state.dart';
+import 'config/dependencies.dart';
 import 'data/notes_repository.dart';
 import 'firebase/firebase_options.dart';
 
@@ -27,7 +30,22 @@ void main() async {
     await auth.setPersistence(Persistence.NONE);
   }
 
-  runApp(const NoteApp());
+  runApp(MultiProvider(providers: providers, child: const MainApp()));
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      routerConfig: route(context.read()),
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true),
+      themeMode: ThemeMode.system,
+    );
+  }
 }
 
 class NoteApp extends StatelessWidget {
