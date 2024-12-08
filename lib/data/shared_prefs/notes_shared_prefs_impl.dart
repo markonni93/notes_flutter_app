@@ -2,19 +2,10 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'model/user.dart';
+import '../model/user.dart';
+import 'notes_shared_prefs.dart';
 
-abstract class NotesCacheManager {
-  Future<void> insertUser(NoteUser user);
-
-  Future<NoteUser?> getUser();
-
-  Future<void> removeUser();
-
-  Future<void> insertDefaultUser();
-}
-
-final class NotesCacheManagerImpl implements NotesCacheManager {
+final class NotesSharedPrefsImpl extends NotesSharedPrefs {
   final SharedPreferencesAsync _asyncPrefs = SharedPreferencesAsync();
   final _userKey = "user_key";
 

@@ -4,12 +4,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quick_notes/data/repositories/auth/auth_repository.dart';
 
 import '../../../util/result.dart';
-import '../../notes_cache_manager.dart';
+import '../../shared_prefs/notes_shared_prefs.dart';
 import 'auth_exception.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(
-      {required NotesCacheManager cache,
+      {required NotesSharedPrefs cache,
       required FirebaseAuth firebaseAuth,
       required GoogleSignIn googleSignIn})
       : _cache = cache,
@@ -19,7 +19,7 @@ class AuthRepositoryImpl extends AuthRepository {
   @visibleForTesting
   bool isWeb = kIsWeb;
 
-  final NotesCacheManager _cache;
+  final NotesSharedPrefs _cache;
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quick_notes/login/view_models/login_viewmodel.dart';
-
-import '../../routing/notes_routes.dart';
+import '../../../routing/notes_routes.dart';
+import '../view_models/login_viewmodel.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key, required this.viewModel});

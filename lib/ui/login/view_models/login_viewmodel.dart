@@ -1,6 +1,6 @@
-import '../../data/repositories/auth/auth_repository.dart';
-import '../../util/command.dart';
-import '../../util/result.dart';
+import '../../../data/repositories/auth/auth_repository.dart';
+import '../../../util/command.dart';
+import '../../../util/result.dart';
 
 class LoginViewModel {
   LoginViewModel({required AuthRepository authRepository})

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_notes/business/note_bloc.dart';
-import 'package:quick_notes/home/home_bloc.dart';
 import 'package:quick_notes/main_bloc.dart';
-import 'package:quick_notes/settings/settings_screen.dart';
-
-import 'create/create_note_widget.dart';
-import 'data/repositories/notes/notes_repository.dart';
-import 'home/home_widget.dart';
+import 'package:quick_notes/ui/create/create_note_widget.dart';
+import 'package:quick_notes/ui/home/home_widget.dart';
+import 'package:quick_notes/ui/settings/settings_screen.dart';
 
 class MainWidget extends StatelessWidget {
   const MainWidget({super.key});
@@ -18,10 +14,10 @@ class MainWidget extends StatelessWidget {
         providers: [
           BlocProvider<MainWidgetBloc>(
               create: (BuildContext context) => MainWidgetBloc()),
-          BlocProvider<HomeBloc>(
-              create: (BuildContext context) => HomeBloc(
-                  repository: RepositoryProvider.of<NotesRepository>(context))
-                ..add(NotesFetched())),
+          // BlocProvider<HomeBloc>(
+          //     create: (BuildContext context) => HomeBloc(
+          //         repository: RepositoryProvider.of<NotesRepository>(context))
+          //       ..add(NotesFetched())),
         ],
         child: BlocBuilder<MainWidgetBloc, MainWidgetState>(
             builder: (context, state) {
@@ -64,24 +60,24 @@ Future<void> _navigateToCreateNoteScreen(BuildContext context) async {
 
   if (!context.mounted) return;
 
-  switch (result) {
-    case NoteStatus.success:
-      context.read<HomeBloc>().add(NewNoteInserted());
-      break;
-    case NoteStatus.failure:
-      const snackBar = SnackBar(
-        content: Text('Error inserting note!'),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      break;
-    case NoteStatus.discarded:
-      const snackBar = SnackBar(
-        content: Text('Empty note discarded!'),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    default:
-      break;
-  }
+  // switch (result) {
+  //   case NoteStatus.success:
+  //     context.read<HomeBloc>().add(NewNoteInserted());
+  //     break;
+  //   case NoteStatus.failure:
+  //     const snackBar = SnackBar(
+  //       content: Text('Error inserting note!'),
+  //     );
+  //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //     break;
+  //   case NoteStatus.discarded:
+  //     const snackBar = SnackBar(
+  //       content: Text('Empty note discarded!'),
+  //     );
+  //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //   default:
+  //     break;
+  // }
 }
 
 Route _constructCreateScreenRoute() {

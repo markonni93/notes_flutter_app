@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:quick_notes/data/repositories/auth/auth_repository.dart';
 import 'package:quick_notes/main_widget.dart';
 
-import '../login/view_models/login_viewmodel.dart';
-import '../login/widgets/login_screen.dart';
+import '../ui/login/view_models/login_viewmodel.dart';
+import '../ui/login/widgets/login_screen.dart';
 import 'notes_routes.dart';
 
 GoRouter route(AuthRepository authRepository) => GoRouter(
