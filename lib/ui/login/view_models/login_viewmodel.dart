@@ -1,3 +1,5 @@
+import 'package:logger/logger.dart';
+
 import '../../../data/repositories/auth/auth_repository.dart';
 import '../../../util/command.dart';
 import '../../../util/result.dart';
@@ -12,11 +14,13 @@ class LoginViewModel {
 
   late Command0 login;
 
+  final _log = Logger();
+
   Future<Result<void>> _login() async {
     final result = await _authRepository.login();
 
     if (result is Error<void>) {
-      print("Something went wrong ${result.error}");
+      _log.e("Error log", error: "$result");
     }
     return result;
   }

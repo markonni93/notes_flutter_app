@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_notes/routing/notes_app_router.dart';
 
@@ -10,14 +11,17 @@ import 'firebase/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Logger.level = Level.all;
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final auth = FirebaseAuth.instanceFor(app: Firebase.app());
-  if (kIsWeb) {
-    await auth.setPersistence(Persistence.NONE);
-  }
+  // final auth = FirebaseAuth.instanceFor(app: Firebase.app());
+  // if (kIsWeb) {
+  //   await auth.setPersistence(Persistence.NONE);
+  // }
 
   runApp(MultiProvider(providers: providers, child: const MainApp()));
 }
@@ -28,11 +32,11 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: route(context.read()),
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true),
       themeMode: ThemeMode.system,
+      routerConfig: route(context.read()),
     );
   }
 }

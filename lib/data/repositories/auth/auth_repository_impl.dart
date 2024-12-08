@@ -25,16 +25,9 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<bool> get isAuthenticated async {
-    // _firebaseAuth.authStateChanges().map((firebaseUser) {
-    //   if (firebaseUser != null) {
-    //     final user = NoteUser.fromFirebaseUser(firebaseUser);
-    //     _cache.insertUser(user);
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // });
-    return false;
+    return await _firebaseAuth.authStateChanges().map((User? user) {
+      return user != null;
+    }).first;
   }
 
   @override
