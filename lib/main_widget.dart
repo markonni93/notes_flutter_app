@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_notes/business/note_bloc.dart';
 import 'package:quick_notes/home/home_bloc.dart';
 import 'package:quick_notes/main_bloc.dart';
-import 'package:quick_notes/settings/settings_widget.dart';
+import 'package:quick_notes/settings/settings_screen.dart';
 
 import 'create/create_note_widget.dart';
-import 'data/notes_repository.dart';
+import 'data/repositories/notes/notes_repository.dart';
 import 'home/home_widget.dart';
 
 class MainWidget extends StatelessWidget {
@@ -109,7 +109,7 @@ Widget _getWidgetForIndex(int currentIndex) {
     case 0:
       return const HomeWidget();
     case 1:
-      return const SettingsWidget();
+      return const SettingsScreen();
     default:
       throw Exception("something went wrong");
   }
