@@ -8,11 +8,13 @@ class LoginViewModel {
   LoginViewModel({required AuthRepository authRepository})
       : _authRepository = authRepository {
     login = Command0<void>(_login);
+    continueWithoutAccount = Command0<void>(_continueWithoutAccount);
   }
 
   final AuthRepository _authRepository;
 
   late Command0 login;
+  late Command0 continueWithoutAccount;
 
   final _log = Logger();
 
@@ -23,5 +25,9 @@ class LoginViewModel {
       _log.e("Error log", error: "$result");
     }
     return result;
+  }
+
+  Future<Result<void>> _continueWithoutAccount() async {
+    return await _authRepository.skipLogin();
   }
 }

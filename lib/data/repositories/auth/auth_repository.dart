@@ -8,4 +8,6 @@ abstract class AuthRepository extends ChangeNotifier {
   Future<Result<void>> login();
 
   Future<Result<void>> logout();
+
+  Future<Result<void>> skipLogin();
 }

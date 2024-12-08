@@ -35,7 +35,6 @@ final class NotesSharedPrefsImpl extends NotesSharedPrefs {
   @override
   Future<void> insertDefaultUser() async {
     final String defaultUserJson = jsonEncode(NoteUser.defaultUser.toJson());
-    print("inserting user in prefs");
     await _asyncPrefs.setString(_userKey, defaultUserJson);
   }
 

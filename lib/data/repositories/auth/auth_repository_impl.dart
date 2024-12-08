@@ -64,6 +64,13 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
+  Future<Result<void>> skipLogin() async {
+    await _cache.insertDefaultUser();
+    print("skipping login");
+    return const Result.ok(null);
+  }
+
+  @override
   Future<Result<void>> logout() async {
     try {
       await Future.wait([

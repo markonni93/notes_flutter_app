@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../routing/notes_routes.dart';
 import '../view_models/login_viewmodel.dart';
 
@@ -17,11 +19,13 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     widget.viewModel.login.addListener(_onResult);
+    widget.viewModel.continueWithoutAccount.addListener(_onResult);
   }
 
   @override
   void dispose() {
     widget.viewModel.login.removeListener(_onResult);
+    widget.viewModel.continueWithoutAccount.removeListener(_onResult);
     super.dispose();
   }
 
@@ -30,11 +34,49 @@ class _LoginScreenState extends State<LoginScreen> {
     super.didUpdateWidget(oldWidget);
     oldWidget.viewModel.login.removeListener(_onResult);
     widget.viewModel.login.addListener(_onResult);
+
+    oldWidget.viewModel.continueWithoutAccount.removeListener(_onResult);
+    widget.viewModel.continueWithoutAccount.addListener(_onResult);
   }
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(child: Scaffold());
+    return Scaffold(
+      body: Center(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+            const Text("Welcome to Quick Notes"),
+            const Spacer(),
+            IntrinsicWidth(
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      side: const BorderSide(
+                        color: Colors.grey, // Border color
+                        width: 2, // Border width
+                      ),
+                      backgroundColor: Colors.black12,
+                      // Set the background color
+                      foregroundColor: Colors.white, // Set the text color
+                    ),
+                    onPressed: () => widget.viewModel.login.execute(),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset("assets/drawable/google_logo.svg",
+                            semanticsLabel: "Google logo"),
+                        const Padding(
+                            padding: EdgeInsets.only(left: 12),
+                            child: Text("Sign in with Google"))
+                      ],
+                    ))),
+            ElevatedButton(
+                onPressed: () =>
+                    widget.viewModel.continueWithoutAccount.execute(),
+                child: const Text("Continue without account")),
+            const Padding(padding: EdgeInsets.only(bottom: 16))
+          ])),
+    );
   }
 
   void _onResult() {
@@ -43,9 +85,29 @@ class _LoginScreenState extends State<LoginScreen> {
       context.go(Routes.home);
     }
 
+    if (widget.viewModel.continueWithoutAccount.completed) {
+      widget.viewModel.continueWithoutAccount.clearResult();
+      context.go(Routes.home);
+    }
+
     if (widget.viewModel.login.error) {
       widget.viewModel.login.clearResult();
-      // TODO Show snackbbar
+
+      const snackBar = SnackBar(
+        content: Text('Error happened'),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+
+    if (widget.viewModel.continueWithoutAccount.error) {
+      widget.viewModel.continueWithoutAccount.clearResult();
+
+      const snackBar = SnackBar(
+        content: Text('Error happened!'),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 }
