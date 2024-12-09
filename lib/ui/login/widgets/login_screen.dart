@@ -53,10 +53,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                      const Spacer(),
+                      Padding(
+                          padding: const EdgeInsets.only(right: 32, left: 32),
+                          child: SvgPicture.asset(notebook1)),
                       Text("Welcome to Quick Notes",
                           style: Theme.of(context).textTheme.headlineLarge),
-                      const Spacer(),
                       IntrinsicWidth(
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(

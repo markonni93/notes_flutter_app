@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_notes/ui/home/widgets/home_app_bar.dart';
 import 'package:quick_notes/ui/home/widgets/home_drawer.dart';
 
 import '../../core/action_button.dart';
 import '../../core/expandable_fab_widget.dart';
+import '../view_models/home_drawer_viewmodel.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,10 +16,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _fabOpened = false;
+  late HomeDrawerViewModel _drawerViewModel;
 
   @override
   void initState() {
     super.initState();
+    _drawerViewModel = HomeDrawerViewModel(authRepository: context.read());
   }
 
   @override
@@ -34,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: const HomeDrawer(),
+      endDrawer: HomeDrawer(viewModel: _drawerViewModel),
       body: Stack(children: [
         CustomScrollView(
           physics: const BouncingScrollPhysics(),

@@ -28,7 +28,7 @@ class HomeAppBar extends StatelessWidget {
                   : null, // Hide when expanded
               background: Padding(
                   padding: const EdgeInsets.all(16),
-                  child: SvgPicture.asset(notebook1)),
+                  child: SvgPicture.asset(notebook)),
             );
           },
         ),
