@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../core/action_button.dart';
@@ -25,9 +24,27 @@ class HomeScreen extends StatelessWidget {
           ActionButton(
             onPressed: () => {},
             icon: const Icon(Icons.videocam),
-          ),
+          )
         ],
       ),
     );
   }
 }
+
+
+// Positioned.fill(
+// child:
+// AnimatedOpacity(
+// opacity: _open ? 1.0 : 0.0,
+// duration: const Duration(milliseconds: 250),
+// child: GestureDetector(
+// onTap: () {
+// _toggle();
+// },
+// child: Container(
+// color: Colors.black26,
+// width: MediaQuery.of(context).size.width,
+// height: MediaQuery.of(context).size.height,
+// ),
+// ),
+// )),

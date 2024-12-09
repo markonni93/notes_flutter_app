@@ -57,9 +57,11 @@ class _ExpandableFabState extends State<ExpandableFab>
       child: Stack(
         alignment: Alignment.bottomRight,
         clipBehavior: Clip.none,
-        children: [_buildTapToCloseFab(),
+        children: [
+          _buildTapToCloseFab(),
           ..._buildExpandingActionButtons(),
-          _buildTapToOpenFab()],
+          _buildTapToOpenFab()
+        ],
       ),
     );
   }
@@ -76,7 +78,7 @@ class _ExpandableFabState extends State<ExpandableFab>
             child: InkWell(
                 onTap: _toggle,
                 child: Padding(
-                    padding: const EdgeInsets.all(18),
+                    padding: const EdgeInsets.all(10),
                     child: Icon(Icons.close,
                         color: Theme.of(context).primaryColor)))),
       ),
@@ -107,8 +109,8 @@ class _ExpandableFabState extends State<ExpandableFab>
     final count = widget.children.length;
     final step = 90.0 / (count - 1);
     for (var i = 0, angleInDegrees = 0.0;
-    i < count;
-    i++, angleInDegrees += step) {
+        i < count;
+        i++, angleInDegrees += step) {
       children.add(
         _ExpandingActionButton(
           directionInDegrees: angleInDegrees,
@@ -161,5 +163,3 @@ class _ExpandingActionButton extends StatelessWidget {
     );
   }
 }
-
-
