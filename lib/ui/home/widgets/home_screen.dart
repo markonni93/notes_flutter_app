@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_notes/ui/home/widgets/home_app_bar.dart';
+import 'package:quick_notes/ui/home/widgets/home_drawer.dart';
 
 import '../../core/action_button.dart';
 import '../../core/expandable_fab_widget.dart';
@@ -33,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: const HomeDrawer(),
       body: Stack(children: [
         CustomScrollView(
           physics: const BouncingScrollPhysics(),

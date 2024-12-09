@@ -34,12 +34,9 @@ class HomeAppBar extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.settings),
-            tooltip: 'Add new entry',
-            onPressed: () {
-              /* ... */
-            },
-          )
+              icon: const Icon(Icons.settings),
+              tooltip: 'Add new entry',
+              onPressed: () => Scaffold.of(context).openEndDrawer())
         ]);
   }
 }
