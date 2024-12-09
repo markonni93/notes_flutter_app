@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:quick_notes/routing/notes_app_router.dart';
 
 import 'config/dependencies.dart';
+import 'config/theme/theme.dart';
+import 'config/theme/util.dart';
 import 'firebase/firebase_options.dart';
 
 void main() async {
@@ -30,10 +32,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = View.of(context).platformDispatcher.platformBrightness;
+
+    TextTheme textTheme = createTextTheme(context, "Roboto", "Roboto");
+    MaterialTheme theme = MaterialTheme(textTheme);
     return MaterialApp.router(
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true),
+      theme: brightness == Brightness.light ? theme.light() : theme.dark(),
       themeMode: ThemeMode.system,
       routerConfig: route(context.read()),
     );

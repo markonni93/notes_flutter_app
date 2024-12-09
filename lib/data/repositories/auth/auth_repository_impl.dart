@@ -25,9 +25,12 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<bool> get isAuthenticated async {
-    return await _firebaseAuth.authStateChanges().map((User? user) {
-      return user != null;
-    }).first;
+    final isDefaultUser = await _cache.getUser();
+    return isDefaultUser?.isDefault == true
+        ? true
+        : await _firebaseAuth.authStateChanges().map((User? user) {
+            return user != null;
+          }).first;
   }
 
   @override
@@ -66,7 +69,6 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Result<void>> skipLogin() async {
     await _cache.insertDefaultUser();
-    print("skipping login");
     return const Result.ok(null);
   }
 
