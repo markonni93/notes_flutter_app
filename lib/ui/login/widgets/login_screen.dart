@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../config/assets/note_assets.dart';
 import '../../../routing/notes_routes.dart';
 import '../view_models/login_viewmodel.dart';
 
@@ -42,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-        listenable: widget.viewModel.continueWithoutAccount,
+        listenable: widget.viewModel.login,
         builder: (context, _) {
           return Stack(
             children: [
@@ -52,7 +53,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                      const Text("Welcome to Quick Notes"),
+                      const Spacer(),
+                      Text("Welcome to Quick Notes",
+                          style: Theme.of(context).textTheme.headlineLarge),
                       const Spacer(),
                       IntrinsicWidth(
                           child: ElevatedButton(
@@ -69,8 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: () => widget.viewModel.login.execute(),
                               child: Row(
                                 children: [
-                                  SvgPicture.asset(
-                                      "assets/drawable/google_logo.svg",
+                                  SvgPicture.asset(googleLogo,
                                       semanticsLabel: "Google logo"),
                                   const Padding(
                                       padding: EdgeInsets.only(left: 12),
@@ -84,9 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Padding(padding: EdgeInsets.only(bottom: 16))
                     ])),
               ),
-
-
-              if (widget.viewModel.continueWithoutAccount.running) ...[
+              if (widget.viewModel.login.running) ...[
                 Positioned.fill(
                   child: Container(
                     color: Colors.black26, // Semi-transparent scrim background
