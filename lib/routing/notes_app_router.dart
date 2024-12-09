@@ -29,7 +29,6 @@ GoRouter route(AuthRepository authRepository) => GoRouter(
 
 Future<String?> _redirect(BuildContext context, GoRouterState state) async {
   final bool loggedIn = await context.read<AuthRepository>().isAuthenticated;
-  print("Is authenticated $loggedIn");
   final bool loggingIn = state.matchedLocation == Routes.login;
   if (!loggedIn) {
     return Routes.login;

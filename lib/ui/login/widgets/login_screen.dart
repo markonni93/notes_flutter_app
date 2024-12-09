@@ -41,42 +41,64 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-            const Text("Welcome to Quick Notes"),
-            const Spacer(),
-            IntrinsicWidth(
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      side: const BorderSide(
-                        color: Colors.grey, // Border color
-                        width: 2, // Border width
-                      ),
-                      backgroundColor: Colors.black12,
-                      // Set the background color
-                      foregroundColor: Colors.white, // Set the text color
-                    ),
-                    onPressed: () => widget.viewModel.login.execute(),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset("assets/drawable/google_logo.svg",
-                            semanticsLabel: "Google logo"),
-                        const Padding(
-                            padding: EdgeInsets.only(left: 12),
-                            child: Text("Sign in with Google"))
-                      ],
-                    ))),
-            ElevatedButton(
-                onPressed: () =>
-                    widget.viewModel.continueWithoutAccount.execute(),
-                child: const Text("Continue without account")),
-            const Padding(padding: EdgeInsets.only(bottom: 16))
-          ])),
-    );
+    return ListenableBuilder(
+        listenable: widget.viewModel.continueWithoutAccount,
+        builder: (context, _) {
+          return Stack(
+            children: [
+              Scaffold(
+                body: Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                      const Text("Welcome to Quick Notes"),
+                      const Spacer(),
+                      IntrinsicWidth(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                side: const BorderSide(
+                                  color: Colors.grey, // Border color
+                                  width: 2, // Border width
+                                ),
+                                backgroundColor: Colors.black12,
+                                // Set the background color
+                                foregroundColor:
+                                    Colors.white, // Set the text color
+                              ),
+                              onPressed: () => widget.viewModel.login.execute(),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                      "assets/drawable/google_logo.svg",
+                                      semanticsLabel: "Google logo"),
+                                  const Padding(
+                                      padding: EdgeInsets.only(left: 12),
+                                      child: Text("Sign in with Google"))
+                                ],
+                              ))),
+                      ElevatedButton(
+                          onPressed: () =>
+                              widget.viewModel.continueWithoutAccount.execute(),
+                          child: const Text("Continue without account")),
+                      const Padding(padding: EdgeInsets.only(bottom: 16))
+                    ])),
+              ),
+
+
+              if (widget.viewModel.continueWithoutAccount.running) ...[
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.black26, // Semi-transparent scrim background
+                  ),
+                ),
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ],
+            ],
+          );
+        });
   }
 
   void _onResult() {
