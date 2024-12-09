@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quick_notes/ui/home/widgets/home_app_bar.dart';
 
-import '../../config/assets/note_assets.dart';
-import '../core/action_button.dart';
-import '../core/expandable_fab_widget.dart';
+import '../../core/action_button.dart';
+import '../../core/expandable_fab_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,38 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
-            SliverAppBar(
-                stretch: true,
-                stretchTriggerOffset: 300.0,
-                pinned: true,
-                expandedHeight: 200.0,
-                flexibleSpace: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    // Calculate the collapse percentage
-                    var top = constraints.biggest.height;
-                    bool isCollapsed = top <=
-                        kToolbarHeight + MediaQuery.of(context).padding.top;
-
-                    return FlexibleSpaceBar(
-                      centerTitle: true,
-                      title: isCollapsed
-                          ? const Text("Quick Notes") // Show when collapsed
-                          : null, // Hide when expanded
-                      background: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: SvgPicture.asset(notebook1)),
-                    );
-                  },
-                ),
-                actions: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.settings),
-                    tooltip: 'Add new entry',
-                    onPressed: () {
-                      /* ... */
-                    },
-                  )
-                ]),
+            const HomeAppBar(),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
@@ -110,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ActionButton(
             onPressed: () => {},
-            icon: const Icon(Icons.videocam),
+            icon: const Icon(Icons.check_box),
           )
         ],
         onFabPressed: (bool value) => {_toggleFab(value)},

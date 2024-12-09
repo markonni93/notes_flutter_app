@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_notes/data/repositories/auth/auth_repository.dart';
-import 'package:quick_notes/ui/home/home_screen.dart';
+import 'package:quick_notes/ui/home/widgets/home_screen.dart';
 
 import '../ui/login/view_models/login_viewmodel.dart';
 import '../ui/login/widgets/login_screen.dart';
