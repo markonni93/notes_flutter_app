@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
 
 @immutable
 class ExpandableFab extends StatefulWidget {
@@ -8,11 +8,13 @@ class ExpandableFab extends StatefulWidget {
       {super.key,
       this.initialOpen,
       required this.distance,
-      required this.children});
+      required this.children,
+      required this.onFabPressed});
 
   final bool? initialOpen;
   final double distance;
   final List<Widget> children;
+  final ValueChanged<bool> onFabPressed;
 
   @override
   State<ExpandableFab> createState() => _ExpandableFabState();
@@ -48,6 +50,7 @@ class _ExpandableFabState extends State<ExpandableFab>
     setState(() {
       _open = !_open;
       _open ? _controller.forward() : _controller.reverse();
+      widget.onFabPressed(_open);
     });
   }
 
