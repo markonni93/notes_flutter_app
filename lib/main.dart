@@ -37,6 +37,7 @@ class MainApp extends StatelessWidget {
     TextTheme textTheme = createTextTheme(context, "Roboto", "Roboto");
     MaterialTheme theme = MaterialTheme(textTheme);
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       theme: brightness == Brightness.light ? theme.light() : theme.dark(),
       themeMode: ThemeMode.system,
       routerConfig: route(context.read()),
