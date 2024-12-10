@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_notes/ui/core/model/note_ui_model.dart';
-import 'package:quick_notes/data/repositories/notes/notes_repository.dart';
+import 'package:quick_notes/data/repositories/notes/notes_repository_impl.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({required this.repository}) : super(const HomeState()) {
@@ -12,41 +12,41 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _onNotesFetched(HomeEvent event, Emitter<HomeState> emit) async {
     if (state.hasReachedMax) return;
 
-    try {
-      if (state.status == HomeStatus.initial) {
-        final notes = await repository.getNotes(0);
-        return emit(state.copyWith(
-            status: HomeStatus.success, notes: notes, hasReachedMax: false));
-      }
-
-      final notes = await repository.getNotes(state.notes.length);
-
-      emit(notes.isEmpty
-          ? state.copyWith(hasReachedMax: true)
-          : state.copyWith(
-              status: HomeStatus.success,
-              notes: List.of(state.notes)..addAll(notes),
-              hasReachedMax: false));
-    } catch (e) {
-      emit(state.copyWith(status: HomeStatus.failure));
-    }
+    // try {
+    //   if (state.status == HomeStatus.initial) {
+    //     final notes = await repository.getNotes(0);
+    //     return emit(state.copyWith(
+    //         status: HomeStatus.success, notes: notes, hasReachedMax: false));
+    //   }
+    //
+    //   final notes = await repository.getNotes(state.notes.length);
+    //
+    //   emit(notes.isEmpty
+    //       ? state.copyWith(hasReachedMax: true)
+    //       : state.copyWith(
+    //           status: HomeStatus.success,
+    //           notes: List.of(state.notes)..addAll(notes),
+    //           hasReachedMax: false));
+    // } catch (e) {
+    //   emit(state.copyWith(status: HomeStatus.failure));
+    // }
   }
 
   Future<void> _onNewNoteInserted(
       NewNoteInserted event, Emitter<HomeState> emit) async {
     try {
-      final note = await repository.getLatestNote();
+     // final note = await repository.getLatestNote();
 
-      return emit(state.copyWith(
-          status: HomeStatus.success,
-          notes: List.of([note])..addAll(state.notes),
-          hasReachedMax: false));
+      // return emit(state.copyWith(
+      //     status: HomeStatus.success,
+      //     notes: List.of([note])..addAll(state.notes),
+      //     hasReachedMax: false));
     } catch (e) {
       emit(state.copyWith(status: HomeStatus.failure));
     }
   }
 
-  final NotesRepository repository;
+  final NotesRepositoryImpl repository;
 }
 
 sealed class HomeEvent extends Equatable {

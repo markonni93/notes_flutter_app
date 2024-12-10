@@ -5,6 +5,7 @@ import 'package:quick_notes/data/repositories/auth/auth_repository.dart';
 import 'package:quick_notes/ui/create/widgets/create_note_screen.dart';
 import 'package:quick_notes/ui/home/widgets/home_screen.dart';
 
+import '../ui/home/view_models/home_screen_viewmodel.dart';
 import '../ui/login/view_models/login_viewmodel.dart';
 import '../ui/login/widgets/login_screen.dart';
 import 'notes_routes.dart';
@@ -24,7 +25,9 @@ GoRouter route(AuthRepository authRepository) => GoRouter(
           GoRoute(
               path: Routes.home,
               builder: (context, state) {
-                return const HomeScreen();
+                return HomeScreen(
+                  viewModel: HomeScreenViewModel(repository: context.read()),
+                );
               },
               routes: [
                 GoRoute(
@@ -32,7 +35,7 @@ GoRouter route(AuthRepository authRepository) => GoRouter(
                     pageBuilder: (context, state) {
                       return CustomTransitionPage(
                         key: state.pageKey,
-                        child: const CreateNoteScreen(),
+                        child: CreateNoteScreen(repository: context.read()),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
                           return FadeTransition(

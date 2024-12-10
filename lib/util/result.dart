@@ -6,6 +6,8 @@ sealed class Result<T> {
 
   /// Creates an error [Result], completed with the specified [error].
   const factory Result.error(Exception error) = Error._;
+
+  const factory Result.empty() = Empty._;
 }
 
 /// Subclass of Result for values
@@ -28,4 +30,8 @@ final class Error<T> extends Result<T> {
 
   @override
   String toString() => 'Result<$T>.error($error)';
+}
+
+final class Empty<T> extends Result<T> {
+  const Empty._();
 }
