@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quick_notes/ui/core/model/note_ui_model.dart';
 import 'package:quick_notes/ui/core/note_item_widget.dart';
 import 'package:quick_notes/ui/home/widgets/home_app_bar.dart';
 import 'package:quick_notes/ui/home/widgets/home_drawer.dart';
 
+import '../../../routing/notes_routes.dart';
 import '../../core/action_button.dart';
 import '../../core/expandable_fab_widget.dart';
 import '../view_models/home_drawer_viewmodel.dart';
@@ -50,22 +52,17 @@ class _HomeScreenState extends State<HomeScreen> {
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 250.0, childAspectRatio: 1.5),
               delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
+                (BuildContext context, int index) {
                   return NoteCard(
                     model: NoteUiModel(
                         id: 1,
-                        note:
-                        index % 2 == 0 ?
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been"
-                            : "note ajbsgijabg  ajsgoapjgaig a nsgain  iafnaisg"
-                        ,
+                        note: index % 2 == 0
+                            ? "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been"
+                            : "note ajbsgijabg  ajsgoapjgaig a nsgain  iafnaisg",
                         title: "Title $index",
                         createdAt: "createdAt"),
                     index: index,
-                    color: Theme
-                        .of(context)
-                        .colorScheme
-                        .primaryContainer,
+                    color: Theme.of(context).colorScheme.primaryContainer,
                   );
                 },
                 childCount: 40,
@@ -75,19 +72,19 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Positioned.fill(
             child: IgnorePointer(
-              ignoring: !_fabOpened,
-              child: AnimatedOpacity(
-                opacity: _fabOpened ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 250),
-                child: Container(color: Colors.black54),
-              ),
-            ))
+          ignoring: !_fabOpened,
+          child: AnimatedOpacity(
+            opacity: _fabOpened ? 1.0 : 0.0,
+            duration: const Duration(milliseconds: 250),
+            child: Container(color: Colors.black54),
+          ),
+        ))
       ]),
       floatingActionButton: ExpandableFab(
         distance: 112,
         children: [
           ActionButton(
-            onPressed: () => {},
+            onPressed: () => context.go(Routes.createNote),
             icon: const Icon(Icons.format_size),
           ),
           ActionButton(

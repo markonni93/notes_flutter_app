@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_notes/data/repositories/auth/auth_repository.dart';
+import 'package:quick_notes/ui/create/widgets/create_note_screen.dart';
 import 'package:quick_notes/ui/home/widgets/home_screen.dart';
 
 import '../ui/login/view_models/login_viewmodel.dart';
@@ -24,7 +25,14 @@ GoRouter route(AuthRepository authRepository) => GoRouter(
               path: Routes.home,
               builder: (context, state) {
                 return const HomeScreen();
-              })
+              },
+              routes: [
+                GoRoute(
+                    path: Routes.createNote,
+                    builder: (context, state) {
+                      return const CreateNoteScreen();
+                    })
+              ]),
         ]);
 
 Future<String?> _redirect(BuildContext context, GoRouterState state) async {
