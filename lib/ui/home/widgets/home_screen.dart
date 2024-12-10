@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_notes/ui/core/model/note_ui_model.dart';
+import 'package:quick_notes/ui/core/note_item_widget.dart';
 import 'package:quick_notes/ui/home/widgets/home_app_bar.dart';
 import 'package:quick_notes/ui/home/widgets/home_drawer.dart';
 
@@ -44,21 +46,25 @@ class _HomeScreenState extends State<HomeScreen> {
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
             const HomeAppBar(),
-            SliverList(
+            SliverGrid(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 250.0,
+              ),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return Container(
-                    color: index.isOdd ? Colors.white : Colors.black12,
-                    height: 100.0,
-                    child: Center(
-                      child: Text('$index',
-                          textScaler: const TextScaler.linear(5.0)),
-                    ),
+                  return NoteCard(
+                    model: NoteUiModel(
+                        id: 1,
+                        note: "My note $index",
+                        title: "Title $index",
+                        createdAt: "createdAt"),
+                    index: index,
+                    color: Theme.of(context).colorScheme.primaryContainer,
                   );
                 },
-                childCount: 20,
+                childCount: 40,
               ),
-            ),
+            )
           ],
         ),
         Positioned.fill(
