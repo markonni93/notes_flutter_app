@@ -29,8 +29,19 @@ GoRouter route(AuthRepository authRepository) => GoRouter(
               routes: [
                 GoRoute(
                     path: Routes.createNote,
-                    builder: (context, state) {
-                      return const CreateNoteScreen();
+                    pageBuilder: (context, state) {
+                      return CustomTransitionPage(
+                        key: state.pageKey,
+                        child: const CreateNoteScreen(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: CurveTween(curve: Curves.easeInOutCirc)
+                                .animate(animation),
+                            child: child,
+                          );
+                        },
+                      );
                     })
               ]),
         ]);

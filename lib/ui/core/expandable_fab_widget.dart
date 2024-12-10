@@ -1,6 +1,9 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../routing/notes_routes.dart';
 
 @immutable
 class ExpandableFab extends StatefulWidget {
@@ -8,12 +11,10 @@ class ExpandableFab extends StatefulWidget {
       {super.key,
       this.initialOpen,
       required this.distance,
-      required this.children,
       required this.onFabPressed});
 
   final bool? initialOpen;
   final double distance;
-  final List<Widget> children;
   final ValueChanged<bool> onFabPressed;
 
   @override
@@ -109,7 +110,7 @@ class _ExpandableFabState extends State<ExpandableFab>
 
   List<Widget> _buildExpandingActionButtons() {
     final children = <Widget>[];
-    final count = widget.children.length;
+    final count = FabItem.values.length;
     final step = 90.0 / (count - 1);
     for (var i = 0, angleInDegrees = 0.0;
         i < count;
@@ -119,7 +120,11 @@ class _ExpandableFabState extends State<ExpandableFab>
           directionInDegrees: angleInDegrees,
           maxDistance: widget.distance,
           progress: _expandAnimation,
-          child: widget.children[i],
+          onPressed: () {
+            _toggle();
+            context.go(Routes.createNote);
+          },
+          child: FabActionButton(item: FabItem.values[i]),
         ),
       );
     }
@@ -129,40 +134,83 @@ class _ExpandableFabState extends State<ExpandableFab>
 
 @immutable
 class _ExpandingActionButton extends StatelessWidget {
-  const _ExpandingActionButton({
-    required this.directionInDegrees,
-    required this.maxDistance,
-    required this.progress,
-    required this.child,
-  });
+  const _ExpandingActionButton(
+      {required this.directionInDegrees,
+      required this.maxDistance,
+      required this.progress,
+      required this.child,
+      this.onPressed});
 
   final double directionInDegrees;
   final double maxDistance;
   final Animation<double> progress;
   final Widget child;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: progress,
-      builder: (context, child) {
-        final offset = Offset.fromDirection(
-          directionInDegrees * (math.pi / 180.0),
-          progress.value * maxDistance,
-        );
-        return Positioned(
-          right: 4.0 + offset.dx,
-          bottom: 4.0 + offset.dy,
-          child: Transform.rotate(
-            angle: (1.0 - progress.value) * math.pi / 2,
-            child: child!,
-          ),
-        );
-      },
-      child: FadeTransition(
-        opacity: progress,
-        child: child,
-      ),
-    );
+        animation: progress,
+        builder: (context, child) {
+          final offset = Offset.fromDirection(
+            directionInDegrees * (math.pi / 180.0),
+            progress.value * maxDistance,
+          );
+          return Positioned(
+            right: 4.0 + offset.dx,
+            bottom: 4.0 + offset.dy,
+            child: Transform.rotate(
+              angle: (1.0 - progress.value) * math.pi / 2,
+              child: child!,
+            ),
+          );
+        },
+        child: FadeTransition(
+            opacity: progress,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                  customBorder: const CircleBorder(),
+                  onTap: onPressed,
+                  child: child),
+            )));
   }
 }
+
+@immutable
+class FabActionButton extends StatelessWidget {
+  const FabActionButton({super.key, required FabItem item}) : _fabItem = item;
+
+  final FabItem _fabItem;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    Icon icon;
+    switch (_fabItem) {
+      case FabItem.note:
+        icon = const Icon(Icons.format_size);
+        break;
+      case FabItem.list:
+        icon = const Icon(Icons.check_box);
+        break;
+      case FabItem.drawing:
+        icon = const Icon(Icons.insert_photo);
+        break;
+    }
+    return Material(
+        shape: const CircleBorder(),
+        clipBehavior: Clip.antiAlias,
+        color: theme.colorScheme.secondary,
+        elevation: 4,
+        child: IgnorePointer(
+          child: IconButton(
+            onPressed: () {},
+            icon: icon,
+            color: theme.colorScheme.onSecondary,
+          ),
+        ));
+  }
+}
+
+enum FabItem { note, list, drawing }

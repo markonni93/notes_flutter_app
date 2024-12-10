@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:quick_notes/ui/core/model/note_ui_model.dart';
 import 'package:quick_notes/ui/core/note_item_widget.dart';
 import 'package:quick_notes/ui/home/widgets/home_app_bar.dart';
 import 'package:quick_notes/ui/home/widgets/home_drawer.dart';
 
-import '../../../routing/notes_routes.dart';
-import '../../core/action_button.dart';
 import '../../core/expandable_fab_widget.dart';
 import '../view_models/home_drawer_viewmodel.dart';
 
@@ -82,20 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ]),
       floatingActionButton: ExpandableFab(
         distance: 112,
-        children: [
-          ActionButton(
-            onPressed: () => context.go(Routes.createNote),
-            icon: const Icon(Icons.format_size),
-          ),
-          ActionButton(
-            onPressed: () => {},
-            icon: const Icon(Icons.insert_photo),
-          ),
-          ActionButton(
-            onPressed: () => {},
-            icon: const Icon(Icons.check_box),
-          )
-        ],
         onFabPressed: (bool value) => {_toggleFab(value)},
       ),
     );
