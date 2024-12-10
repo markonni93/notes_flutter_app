@@ -1,6 +1,6 @@
 import 'package:quick_notes/data/model/note_model.dart';
 import 'package:quick_notes/data/notes_data_provider.dart';
-import 'package:quick_notes/data/model/ui/note_ui_model.dart';
+import 'package:quick_notes/ui/core/model/note_ui_model.dart';
 
 class NotesRepository {
   NotesRepository({NotesDataProvider? notesDataProvider})

@@ -58,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: SvgPicture.asset(notebook1)),
                       Text("Welcome to Quick Notes",
                           style: Theme.of(context).textTheme.headlineLarge),
+                      // TODO this button needs to be fixed
                       IntrinsicWidth(
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(

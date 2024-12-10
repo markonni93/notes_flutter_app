@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: AnimatedOpacity(
             opacity: _fabOpened ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 250),
-            child: Container(color: Colors.black26),
+            child: Container(color: Colors.black54),
           ),
         ))
       ]),

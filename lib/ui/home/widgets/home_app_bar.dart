@@ -31,12 +31,6 @@ class HomeAppBar extends StatelessWidget {
                   child: SvgPicture.asset(notebook)),
             );
           },
-        ),
-        actions: <Widget>[
-          IconButton(
-              icon: const Icon(Icons.settings),
-              tooltip: 'Add new entry',
-              onPressed: () => Scaffold.of(context).openEndDrawer())
-        ]);
+        ));
   }
 }
