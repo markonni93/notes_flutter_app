@@ -48,18 +48,24 @@ class _HomeScreenState extends State<HomeScreen> {
             const HomeAppBar(),
             SliverGrid(
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 250.0,
-              ),
+                  maxCrossAxisExtent: 250.0, childAspectRatio: 1.5),
               delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
+                    (BuildContext context, int index) {
                   return NoteCard(
                     model: NoteUiModel(
                         id: 1,
-                        note: "My note $index",
+                        note:
+                        index % 2 == 0 ?
+                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been"
+                            : "note ajbsgijabg  ajsgoapjgaig a nsgain  iafnaisg"
+                        ,
                         title: "Title $index",
                         createdAt: "createdAt"),
                     index: index,
-                    color: Theme.of(context).colorScheme.primaryContainer,
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .primaryContainer,
                   );
                 },
                 childCount: 40,
@@ -69,13 +75,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Positioned.fill(
             child: IgnorePointer(
-          ignoring: !_fabOpened,
-          child: AnimatedOpacity(
-            opacity: _fabOpened ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 250),
-            child: Container(color: Colors.black54),
-          ),
-        ))
+              ignoring: !_fabOpened,
+              child: AnimatedOpacity(
+                opacity: _fabOpened ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 250),
+                child: Container(color: Colors.black54),
+              ),
+            ))
       ]),
       floatingActionButton: ExpandableFab(
         distance: 112,

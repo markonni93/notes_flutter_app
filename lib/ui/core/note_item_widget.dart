@@ -19,7 +19,8 @@ class NoteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {print("card clciked")},
+        onTap: () => {},
+        onLongPress: () => {},
         child: Card(
           color: _createMaterialColor(_baseColor)[100 * (_index % 9)],
           child: Column(
@@ -33,10 +34,14 @@ class NoteCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   )),
-              Text(
-                _model.note,
-                style: Theme.of(context).textTheme.bodyMedium,
-              )
+              Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 12),
+                  child: Text(
+                    _model.note,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                  ))
             ],
           ),
         ));
@@ -58,7 +63,6 @@ MaterialColor _createMaterialColor(Color color) {
   });
 }
 
-// Helper to create lighter shades (tints)
 Color _tintColor(Color color, double factor) {
   return Color.fromRGBO(
     color.red + ((255 - color.red) * factor).round(),
@@ -68,7 +72,6 @@ Color _tintColor(Color color, double factor) {
   );
 }
 
-// Helper to create darker shades
 Color _shadeColor(Color color, double factor) {
   return Color.fromRGBO(
     (color.red * (1 - factor)).round(),
