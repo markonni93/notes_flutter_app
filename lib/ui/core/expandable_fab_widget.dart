@@ -122,7 +122,7 @@ class _ExpandableFabState extends State<ExpandableFab>
           progress: _expandAnimation,
           onPressed: () {
             _toggle();
-            context.go(Routes.createNote);
+            context.go(_getRouteForFabAction(i));
           },
           child: FabActionButton(item: FabItem.values[i]),
         ),
@@ -130,6 +130,14 @@ class _ExpandableFabState extends State<ExpandableFab>
     }
     return children;
   }
+}
+
+_getRouteForFabAction(int index) {
+  return switch (FabItem.values[index]) {
+    FabItem.note => Routes.createNote,
+    FabItem.list => Routes.createListNote,
+    FabItem.drawing => Routes.createNote,
+  };
 }
 
 @immutable

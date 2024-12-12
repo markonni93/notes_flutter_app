@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_notes/data/repositories/auth/auth_repository.dart';
-import 'package:quick_notes/ui/create/widgets/create_note_screen.dart';
+import 'package:quick_notes/ui/create/list_note/list_note_screen.dart';
+import 'package:quick_notes/ui/create/list_note/list_note_screen_viewmodel.dart';
+import 'package:quick_notes/ui/create/text_note/create_note_screen.dart';
 import 'package:quick_notes/ui/home/widgets/home_screen.dart';
 
 import '../ui/home/view_models/home_screen_viewmodel.dart';
@@ -45,7 +47,25 @@ GoRouter route(AuthRepository authRepository) => GoRouter(
                           );
                         },
                       );
-                    })
+                    }),
+                GoRoute(
+                    path: Routes.createListNote,
+                    pageBuilder: (context, state) {
+                      return CustomTransitionPage(
+                        key: state.pageKey,
+                        child: CreateListNoteScreen(
+                            viewModel: ListNoteScreenViewModel(
+                                repository: context.read())),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: CurveTween(curve: Curves.easeInOutCirc)
+                                .animate(animation),
+                            child: child,
+                          );
+                        },
+                      );
+                    }),
               ]),
         ]);
 
