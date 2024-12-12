@@ -70,9 +70,8 @@ class NotesDataProviderImpl extends NotesDataProvider {
       }).toList();
 
       _safeAddToStream(noteModels);
-    } catch (e, stackTrace) {
-      print('Error fetching notes: $e');
-      print(stackTrace);
+    } catch (e) {
+      _noteStreamController.addError(Exception("Error fetching notes $e"));
     }
   }
 

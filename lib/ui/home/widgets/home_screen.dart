@@ -29,13 +29,24 @@ class _HomeScreenState extends State<HomeScreen> {
     _drawerViewModel = HomeDrawerViewModel(authRepository: context.read());
     _scrollController.addListener(_onScroll);
     widget.viewModel.fetchNotes();
+    widget.viewModel.addListener(_showSnackbar);
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
     widget.viewModel.disposeNoteStream();
+    widget.viewModel.removeListener(_showSnackbar);
     super.dispose();
+  }
+
+  void _showSnackbar() {
+    if (widget.viewModel.showSnackbar) {
+      final snackBar = SnackBar(
+        content: Text(widget.viewModel.snackbarMessage),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   void _toggleFab(bool fabValue) {
@@ -66,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
             stream: widget.viewModel.notesStream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               } else {
                 final data = snapshot.requireData;
                 return CustomScrollView(

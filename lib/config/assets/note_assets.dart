@@ -5,3 +5,4 @@ const notebook = "assets/drawable/notebook_illustration.svg";
 const notebook1 = "assets/drawable/notebook_illustration_1.svg";
 const avatarMale = "assets/drawable/avatar_male.svg";
 const avatarFemale = "assets/drawable/avatar_female.svg";
+const unknownError = "assets/drawable/unknown_error.svg";

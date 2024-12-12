@@ -88,6 +88,7 @@ flutter:
     - assets/drawable/notebook_illustration_1.svg
     - assets/drawable/avatar_male.svg
     - assets/drawable/avatar_female.svg
+    - assets/drawable/unknown_error.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

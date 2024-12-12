@@ -1,5 +1,4 @@
 import 'package:quick_notes/data/model/note_model.dart';
-import 'package:quick_notes/data/notes_data_provider_impl.dart';
 import 'package:quick_notes/data/repositories/notes/notes_repository.dart';
 import 'package:quick_notes/ui/core/model/note_ui_model.dart';
 
@@ -34,7 +33,7 @@ class NotesRepositoryImpl extends NotesRepository {
             .map((noteModel) => NoteUiModel.fromNoteModel(noteModel))
             .toList())
         .handleError((error) {
-          print("Something went wrong when fetching the notes");
+          throw Exception("Error fetching notes $error");
     });
   }
 
