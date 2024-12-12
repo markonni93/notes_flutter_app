@@ -1,34 +1,40 @@
+import 'dart:async';
+
 import 'package:quick_notes/ui/core/model/note_ui_model.dart';
-import 'package:quick_notes/util/command.dart';
-import 'package:quick_notes/util/result.dart';
 
 import '../../../data/repositories/notes/notes_repository.dart';
 
 class HomeScreenViewModel {
   HomeScreenViewModel({required NotesRepository repository})
       : _repository = repository {
-    fetchNotes = Command1(_fetchNotes);
+    _repository.getStreamNotes().listen((value) {
+      _items.addAll(value);
+      _offset = _items.length;
+      _noteStreamController.add(_items);
+      if (value.isEmpty) _allItemsFetched = true;
+    });
   }
 
   final NotesRepository _repository;
-  late Command1<void, int> fetchNotes;
+  final List<NoteUiModel> _items = [];
 
-  List<NoteUiModel> _items = [];
-  List<NoteUiModel> get items => _items;
+  final StreamController<List<NoteUiModel>> _noteStreamController =
+      StreamController.broadcast();
 
-  Future<Result> _fetchNotes(int offset) async {
-    print("fetching notes $offset");
-    final result = await _repository.getNotes(offset);
+  Stream<List<NoteUiModel>> get notesStream => _noteStreamController.stream;
 
-    switch (result) {
-      case Ok<List<NoteUiModel>>():
-        _items = List.of(_items)..addAll(result.value!);
-        // todo this is not ok
-        return const Result.ok(null);
-      case Empty():
-        return result;
-      case Error():
-        return result;
+  var _offset = 0;
+
+  var _allItemsFetched = false;
+
+  void fetchNotes() async {
+    if (!_allItemsFetched) {
+      _repository.getNotes(_offset);
     }
+  }
+
+  void disposeNoteStream() {
+    _repository.closeStream();
+    _noteStreamController.close();
   }
 }

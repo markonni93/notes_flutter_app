@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_notes/data/model/note_model.dart';
@@ -15,8 +17,8 @@ class CreateNoteScreen extends StatelessWidget {
           elevation: 0.9,
           leading: IconButton(
               onPressed: () => {
-                    //_insertNotes(context)
-                    GoRouter.of(context).pop(true)
+                    _insertNotes(context)
+                    //GoRouter.of(context).pop(true)
                   },
               icon: const Icon(Icons.arrow_back_ios)),
           title: const Text("Create note")),
@@ -24,13 +26,12 @@ class CreateNoteScreen extends StatelessWidget {
   }
 
   void _insertNotes(BuildContext context) async {
-    for (var i = 0; i < 100; i++) {
-      await repository.insertNote(NoteModel(
-          id: i,
-          note: "Description note",
-          title: "Note title $i",
-          createdAt: DateTime.now().toIso8601String()));
-    }
+    final id = Random.secure().nextInt(10000);
+    await repository.insertNote(NoteModel(
+        id: id,
+        note: "Description note $id",
+        title: "Note title $id",
+        createdAt: DateTime.now().toIso8601String()));
     GoRouter.of(context).pop();
   }
 }

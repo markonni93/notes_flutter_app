@@ -1,26 +1,20 @@
 import 'package:quick_notes/data/model/note_model.dart';
-import 'package:quick_notes/data/notes_data_provider.dart';
+import 'package:quick_notes/data/notes_data_provider_impl.dart';
 import 'package:quick_notes/data/repositories/notes/notes_repository.dart';
 import 'package:quick_notes/ui/core/model/note_ui_model.dart';
 
 import '../../../util/result.dart';
+import '../../notes_data_provider.dart';
 
 class NotesRepositoryImpl extends NotesRepository {
-  NotesRepositoryImpl({NotesDataProvider? notesDataProvider})
-      : _notesDataProvider = notesDataProvider ?? NotesDataProvider();
+  NotesRepositoryImpl({required NotesDataProvider notesDataProvider})
+      : _notesDataProvider = notesDataProvider;
 
   final NotesDataProvider _notesDataProvider;
 
   @override
-  Future<Result<List<NoteUiModel>>> getNotes(int offset) async {
-    final notes = await _notesDataProvider.getNotes(offset);
-
-    if (notes.isNotEmpty) {
-      return Result.ok(
-          notes.map((model) => NoteUiModel.fromNoteModel(model)).toList());
-    } else {
-      return const Result.empty();
-    }
+  getNotes(int offset) async {
+    _notesDataProvider.getNotes(offset);
   }
 
   @override
@@ -31,5 +25,21 @@ class NotesRepositoryImpl extends NotesRepository {
     } catch (exception) {
       return Result.error(exception as Exception);
     }
+  }
+
+  @override
+  Stream<List<NoteUiModel>> getStreamNotes() async* {
+    yield* _notesDataProvider.notesStream
+        .map((items) => items
+            .map((noteModel) => NoteUiModel.fromNoteModel(noteModel))
+            .toList())
+        .handleError((error) {
+          print("Something went wrong when fetching the notes");
+    });
+  }
+
+  @override
+  void closeStream() {
+    _notesDataProvider.closeStream();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_notes/ui/core/model/note_ui_model.dart';
 import 'package:quick_notes/ui/core/note_item_widget.dart';
 import 'package:quick_notes/ui/home/view_models/home_screen_viewmodel.dart';
 import 'package:quick_notes/ui/home/widgets/home_app_bar.dart';
@@ -27,22 +28,14 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _drawerViewModel = HomeDrawerViewModel(authRepository: context.read());
     _scrollController.addListener(_onScroll);
-    widget.viewModel.fetchNotes.addListener(_onResult);
-    widget.viewModel.fetchNotes.execute(0);
+    widget.viewModel.fetchNotes();
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
-    widget.viewModel.fetchNotes.removeListener(_onResult);
+    widget.viewModel.disposeNoteStream();
     super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(covariant HomeScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    oldWidget.viewModel.fetchNotes.removeListener(_onResult);
-    widget.viewModel.fetchNotes.addListener(_onResult);
   }
 
   void _toggleFab(bool fabValue) {
@@ -53,21 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onScroll() {
     if (_isBottom) {
-      widget.viewModel.fetchNotes.execute(widget.viewModel.items.length);
-    }
-  }
-
-  void _onResult() {
-    if (widget.viewModel.fetchNotes.completed) {
-      widget.viewModel.fetchNotes.clearResult();
-    }
-    if (widget.viewModel.fetchNotes.error) {
-      widget.viewModel.fetchNotes.clearResult();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Error something went wrong"),
-        ),
-      );
+      widget.viewModel.fetchNotes();
     }
   }
 
@@ -83,31 +62,37 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       endDrawer: HomeDrawer(viewModel: _drawerViewModel),
       body: Stack(children: [
-        ListenableBuilder(
-            listenable: widget.viewModel.fetchNotes,
-            builder: (context, child) {
-              return CustomScrollView(
-                controller: _scrollController,
-                physics: const BouncingScrollPhysics(),
-                slivers: <Widget>[
-                  const HomeAppBar(),
-                  SliverGrid(
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 250.0, childAspectRatio: 1.5),
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return NoteCard(
-                          model: widget.viewModel.items[index],
-                          index: index,
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                        );
-                      },
-                      childCount: widget.viewModel.items.length,
-                    ),
-                  )
-                ],
-              );
+        StreamBuilder<List<NoteUiModel>>(
+            stream: widget.viewModel.notesStream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const CircularProgressIndicator();
+              } else {
+                final data = snapshot.requireData;
+                return CustomScrollView(
+                  controller: _scrollController,
+                  physics: const BouncingScrollPhysics(),
+                  slivers: <Widget>[
+                    const HomeAppBar(),
+                    SliverGrid(
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 250.0, childAspectRatio: 1.5),
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          return NoteCard(
+                            model: data[index],
+                            index: index,
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                          );
+                        },
+                        childCount: snapshot.data?.length,
+                      ),
+                    )
+                  ],
+                );
+              }
             }),
         Positioned.fill(
             child: IgnorePointer(
