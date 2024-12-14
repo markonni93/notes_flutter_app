@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_notes/ui/create/list_note/list_note_screen_viewmodel.dart';
-import 'package:quick_notes/ui/create/list_note/widgets/reordable_note_list.dart';
+import 'package:quick_notes/ui/create/list_note/widgets/list_note.dart';
 
 class CreateListNoteScreen extends StatelessWidget {
   const CreateListNoteScreen({super.key, required this.viewModel});
@@ -17,7 +17,7 @@ class CreateListNoteScreen extends StatelessWidget {
             onPressed: () => GoRouter.of(context).pop(),
             icon: const Icon(Icons.arrow_back_ios_new)),
       ),
-      body: const ReorderableNoteList(),
+      body: const ListNote(),
     );
   }
 }
