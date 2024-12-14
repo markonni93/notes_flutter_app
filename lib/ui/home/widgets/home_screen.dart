@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_notes/ui/core/list_note_item_widget.dart';
 import 'package:quick_notes/ui/core/model/note_ui_model.dart';
 import 'package:quick_notes/ui/core/note_item_widget.dart';
 import 'package:quick_notes/ui/home/view_models/home_screen_viewmodel.dart';
@@ -88,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SliverGrid(
                       gridDelegate:
                           const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 250.0, childAspectRatio: 1.5),
+                              maxCrossAxisExtent: 250.0, childAspectRatio: 1.4),
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
                           final item = data[index];
@@ -102,7 +103,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     .primaryContainer,
                               );
                             case ListNoteUiModel():
-                              return const Text("Simple list note for now");
+                              return ListNoteCard(
+                                  model: item,
+                                  index: index,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer);
                           }
                         },
                         childCount: snapshot.data?.length,

@@ -20,7 +20,7 @@ class CreateListNoteScreen extends StatelessWidget {
                       id: const Uuid().v1(),
                       title: "First list note",
                       createdAt: DateTime.now().toIso8601String(),
-                      items: {'first note list': true, 'second note': false}))
+                      items: {'first note list': true, 'second note': false, 'third note': false, 'forth note': true}))
                   //GoRouter.of(context).pop()
                 },
             icon: const Icon(Icons.arrow_back_ios_new)),

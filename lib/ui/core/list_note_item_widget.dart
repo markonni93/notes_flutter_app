@@ -1,28 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_notes/ui/core/model/note_ui_model.dart';
 
 import '../../util/note_material.dart';
+import 'model/note_ui_model.dart';
 
-class NoteCard extends StatelessWidget {
-  const NoteCard(
+class ListNoteCard extends StatelessWidget {
+  const ListNoteCard(
       {super.key,
-      required TextNoteUiModel model,
+      required ListNoteUiModel model,
       required int index,
       required Color color})
       : _model = model,
         _index = index,
         _baseColor = color;
 
-  final TextNoteUiModel _model;
+  final ListNoteUiModel _model;
   final int _index;
   final Color _baseColor;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {},
-        child: Card(
+      onTap: () => {},
+      child: Card(
           color: createMaterialColor(_baseColor)[100 * (_index % 9)],
           child: Column(
             children: [
@@ -35,16 +35,20 @@ class NoteCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   )),
-              Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12),
-                  child: Text(
-                    _model.note,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    maxLines: 4,
-                    overflow: TextOverflow.ellipsis,
-                  ))
+              for (var item in _model.items.entries.take(2))
+                IgnorePointer(
+                    child: Row(children: [
+                  Checkbox(value: item.value, onChanged: (value) {}),
+                  Text(item.key,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: item.value
+                          ? const TextStyle(
+                              decoration: TextDecoration.lineThrough)
+                          : const TextStyle())
+                ]))
             ],
-          ),
-        ));
+          )),
+    );
   }
 }
