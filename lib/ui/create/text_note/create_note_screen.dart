@@ -2,8 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quick_notes/data/model/note_model.dart';
 import 'package:quick_notes/data/repositories/notes/notes_repository.dart';
+
+import '../../../data/model/notes/note_model.dart';
 
 class CreateNoteScreen extends StatelessWidget {
   const CreateNoteScreen({super.key, required this.repository});

@@ -1,8 +1,8 @@
-import 'package:quick_notes/data/model/note_model.dart';
 import 'package:quick_notes/data/repositories/notes/notes_repository.dart';
 import 'package:quick_notes/ui/core/model/note_ui_model.dart';
 
 import '../../../util/result.dart';
+import '../../model/notes/note_model.dart';
 import '../../notes_data_provider.dart';
 
 class NotesRepositoryImpl extends NotesRepository {
@@ -27,13 +27,27 @@ class NotesRepositoryImpl extends NotesRepository {
   }
 
   @override
+  Future<Result<void>> insertListNote(ListNoteModel item) async {
+    try {
+      await _notesDataProvider.insertListNote(item);
+      return const Result.ok(null);
+    } catch (exception) {
+      return Result.error(exception as Exception);
+    }
+  }
+
+  @override
   Stream<List<NoteUiModel>> getStreamNotes() async* {
     yield* _notesDataProvider.notesStream
         .map((items) => items
-            .map((noteModel) => NoteUiModel.fromNoteModel(noteModel))
+            .map((noteModel) => switch (noteModel) {
+                  ListNoteModel() =>
+                    ListNoteUiModel.fromListNoteModel(noteModel),
+                  NoteModel() => TextNoteUiModel.fromNoteModel(noteModel),
+                })
             .toList())
         .handleError((error) {
-          throw Exception("Error fetching notes $error");
+      throw Exception("Error fetching notes $error");
     });
   }
 

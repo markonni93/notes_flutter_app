@@ -5,14 +5,14 @@ import 'package:quick_notes/ui/core/model/note_ui_model.dart';
 class NoteCard extends StatelessWidget {
   const NoteCard(
       {super.key,
-      required NoteUiModel model,
+      required TextNoteUiModel model,
       required int index,
       required Color color})
       : _model = model,
         _index = index,
         _baseColor = color;
 
-  final NoteUiModel _model;
+  final TextNoteUiModel _model;
   final int _index;
   final Color _baseColor;
 

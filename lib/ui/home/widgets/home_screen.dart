@@ -91,12 +91,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               maxCrossAxisExtent: 250.0, childAspectRatio: 1.5),
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
-                          return NoteCard(
-                            model: data[index],
-                            index: index,
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                          );
+                          final item = data[index];
+                          switch (item) {
+                            case TextNoteUiModel():
+                              return NoteCard(
+                                model: item,
+                                index: index,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                              );
+                            case ListNoteUiModel():
+                              return const Text("Simple list note for now");
+                          }
                         },
                         childCount: snapshot.data?.length,
                       ),
