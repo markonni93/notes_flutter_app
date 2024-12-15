@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       .colorScheme
                                       .primaryContainer);
                             case DrawingNoteUiModel():
-                              return Text("Drawing goes here");
+                              return Image.memory(item.sketch);
                           }
                         },
                         childCount: snapshot.data?.length,
