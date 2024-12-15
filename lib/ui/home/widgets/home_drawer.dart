@@ -58,25 +58,25 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     children: [Icon(Icons.delete), Text("Bin")],
                   ))),
           const Spacer(),
-          Padding(
-              padding: const EdgeInsets.only(bottom: 24),
-              child: FilledButton.icon(
-                style: FilledButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(12.0), // Rounded corners
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 12.0),
-                ),
-                onPressed: () {
-                  widget.viewModel.logout.execute();
-                },
-                icon: const Icon(Icons.logout),
-                label: const Text('Logout'),
-              ))
+          // Padding(
+          //     padding: const EdgeInsets.only(bottom: 24),
+          //     child: FilledButton.icon(
+          //       style: FilledButton.styleFrom(
+          //         backgroundColor: Theme.of(context).colorScheme.primary,
+          //         foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius:
+          //               BorderRadius.circular(12.0), // Rounded corners
+          //         ),
+          //         padding: const EdgeInsets.symmetric(
+          //             horizontal: 16.0, vertical: 12.0),
+          //       ),
+          //       onPressed: () {
+          //         widget.viewModel.logout.execute();
+          //       },
+          //       icon: const Icon(Icons.logout),
+          //       label: const Text('Logout'),
+          //     ))
         ],
       ),
     );
