@@ -7,7 +7,7 @@ import '../../../data/model/notes/note_model.dart';
 sealed class NoteUiModel extends Equatable {}
 
 final class TextNoteUiModel extends NoteUiModel {
-  final int id;
+  final String id;
   final String note;
   final String title;
   final String createdAt;

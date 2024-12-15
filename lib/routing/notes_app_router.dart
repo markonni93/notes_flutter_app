@@ -7,18 +7,17 @@ import 'package:quick_notes/ui/create/drawing_note/drawing_note_screen_viewmodel
 import 'package:quick_notes/ui/create/list_note/list_note_screen.dart';
 import 'package:quick_notes/ui/create/list_note/list_note_screen_viewmodel.dart';
 import 'package:quick_notes/ui/create/text_note/create_note_screen.dart';
+import 'package:quick_notes/ui/create/text_note/create_note_screen_viewmodel.dart';
 import 'package:quick_notes/ui/home/widgets/home_screen.dart';
 
 import '../ui/home/view_models/home_screen_viewmodel.dart';
-import '../ui/login/view_models/login_viewmodel.dart';
-import '../ui/login/widgets/login_screen.dart';
 import 'notes_routes.dart';
 
 GoRouter route(AuthRepository authRepository) => GoRouter(
         initialLocation: Routes.home,
         debugLogDiagnostics: true,
-  //      redirect: _redirect,
-  //      refreshListenable: authRepository,
+        //      redirect: _redirect,
+        //      refreshListenable: authRepository,
         routes: [
           // GoRoute(
           //     path: Routes.login,
@@ -39,7 +38,9 @@ GoRouter route(AuthRepository authRepository) => GoRouter(
                     pageBuilder: (context, state) {
                       return CustomTransitionPage(
                         key: state.pageKey,
-                        child: CreateNoteScreen(repository: context.read()),
+                        child: CreateNoteScreen(
+                            viewModel: CreateNoteScreenViewModel(
+                                repository: context.read())),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
                           return FadeTransition(

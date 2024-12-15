@@ -51,7 +51,7 @@ final class ListNoteModel extends Note {
 }
 
 class NoteModel extends Note {
-  final int id;
+  final String id;
   final String note;
   final String title;
   final String createdAt;
@@ -63,7 +63,15 @@ class NoteModel extends Note {
       required this.createdAt});
 
   Map<String, Object?> toMap() {
-    return {'note': note, 'title': title, 'createdAt': createdAt};
+    return {'id': id, 'note': note, 'title': title, 'createdAt': createdAt};
+  }
+
+  factory NoteModel.fromMap(Map<String, dynamic> map) {
+    return NoteModel(
+        id: map['id'] as String,
+        createdAt: map['createdAt'] as String,
+        title: map['title'] as String,
+        note: map['note'] as String);
   }
 }
 

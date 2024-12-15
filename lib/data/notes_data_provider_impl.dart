@@ -35,7 +35,7 @@ class NotesDataProviderImpl extends NotesDataProvider {
           await db.execute(
             '''
             CREATE TABLE $_notesDbTableName (
-              $_idColumn INTEGER PRIMARY KEY AUTOINCREMENT,
+              $_idColumn TEXT,
               $_noteColumn TEXT,
               $_titleColumn TEXT,
               $_createdAtColumn TEXT
@@ -135,12 +135,7 @@ class NotesDataProviderImpl extends NotesDataProvider {
           limit: limit, offset: offset, orderBy: "$_createdAtColumn DESC");
 
       final noteModels = notes.map((note) {
-        return NoteModel(
-          id: note[_idColumn] as int? ?? 0,
-          note: note[_noteColumn] as String? ?? '',
-          title: note[_titleColumn] as String? ?? '',
-          createdAt: note[_createdAtColumn] as String? ?? '',
-        );
+        return NoteModel.fromMap(note);
       }).toList();
 
       final listNoteModels = listNotes.map((note) {
