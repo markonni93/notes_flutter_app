@@ -17,15 +17,15 @@ import 'notes_routes.dart';
 GoRouter route(AuthRepository authRepository) => GoRouter(
         initialLocation: Routes.home,
         debugLogDiagnostics: true,
-        redirect: _redirect,
-        refreshListenable: authRepository,
+  //      redirect: _redirect,
+  //      refreshListenable: authRepository,
         routes: [
-          GoRoute(
-              path: Routes.login,
-              builder: (context, state) {
-                return LoginScreen(
-                    viewModel: LoginViewModel(authRepository: context.read()));
-              }),
+          // GoRoute(
+          //     path: Routes.login,
+          //     builder: (context, state) {
+          //       return LoginScreen(
+          //           viewModel: LoginViewModel(authRepository: context.read()));
+          //     }),
           GoRoute(
               path: Routes.home,
               builder: (context, state) {
