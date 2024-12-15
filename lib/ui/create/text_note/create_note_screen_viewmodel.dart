@@ -10,10 +10,12 @@ class CreateNoteScreenViewModel {
   final NotesRepository _repository;
 
   void insertNotes(String title, String note) async {
-    await _repository.insertNote(NoteModel(
-        id: Uuid().v1(),
-        note: note,
-        title: title,
-        createdAt: DateTime.now().toIso8601String()));
+    if (title.isNotEmpty || note.isNotEmpty) {
+      await _repository.insertNote(NoteModel(
+          id: Uuid().v1(),
+          note: note,
+          title: title,
+          createdAt: DateTime.now().toIso8601String()));
+    }
   }
 }
