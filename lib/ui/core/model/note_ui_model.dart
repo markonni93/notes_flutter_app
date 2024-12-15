@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 
 import '../../../data/model/notes/note_model.dart';
@@ -59,4 +61,21 @@ final class ListNoteUiModel extends NoteUiModel {
 
   @override
   List<Object?> get props => [id, title, items];
+}
+
+final class DrawingNoteUiModel extends NoteUiModel {
+  DrawingNoteUiModel(
+      {required this.id, required this.createdAt, required this.sketch});
+
+  final String id;
+  final String createdAt;
+  final Uint8List sketch;
+
+  DrawingNoteUiModel.fromDrawingNoteModel(DrawingNoteModel model)
+      : id = model.id,
+        createdAt = model.createdAt,
+        sketch = model.sketch;
+
+  @override
+  List<Object?> get props => [id, createdAt, sketch];
 }

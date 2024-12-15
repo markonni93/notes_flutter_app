@@ -109,6 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .primaryContainer);
+                            case DrawingNoteUiModel():
+                              return Text("Drawing goes here");
                           }
                         },
                         childCount: snapshot.data?.length,

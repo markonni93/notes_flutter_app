@@ -37,6 +37,16 @@ class NotesRepositoryImpl extends NotesRepository {
   }
 
   @override
+  Future<Result<void>> insertDrawingNote(DrawingNoteModel model) async {
+    try {
+      await _notesDataProvider.insertDrawingNote(model);
+      return const Result.ok(null);
+    } catch (exception) {
+      return Result.error(exception as Exception);
+    }
+  }
+
+  @override
   Stream<List<NoteUiModel>> getStreamNotes() async* {
     yield* _notesDataProvider.notesStream
         .map((items) => items
@@ -44,6 +54,8 @@ class NotesRepositoryImpl extends NotesRepository {
                   ListNoteModel() =>
                     ListNoteUiModel.fromListNoteModel(noteModel),
                   NoteModel() => TextNoteUiModel.fromNoteModel(noteModel),
+                  DrawingNoteModel() =>
+                    DrawingNoteUiModel.fromDrawingNoteModel(noteModel)
                 })
             .toList())
         .handleError((error) {

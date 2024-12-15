@@ -136,7 +136,7 @@ _getRouteForFabAction(int index) {
   return switch (FabItem.values[index]) {
     FabItem.note => Routes.createNote,
     FabItem.list => Routes.createListNote,
-    FabItem.drawing => Routes.createNote,
+    FabItem.drawing => Routes.createDrawingNote,
   };
 }
 

@@ -9,12 +9,14 @@ class NotesDataProviderImpl extends NotesDataProvider {
   static const _dbVersion = 1;
   static const _dbName = "notes.db";
   static const _notesDbTableName = "notes";
+  static const _listNotesDbTableName = "listNotes";
+  static const _drawingNoteTableName = "drawingNotes";
   static const _idColumn = "id";
   static const _noteColumn = "note";
   static const _titleColumn = "title";
   static const _createdAtColumn = "createdAt";
-  static const _listNotesDbTableName = "listNotes";
   static const _listNoteItemsColumn = "items";
+  static const _sketchColumn = "sketch";
 
   static Database? _databaseInstance;
 
@@ -47,6 +49,15 @@ class NotesDataProviderImpl extends NotesDataProvider {
               $_titleColumn TEXT,
               $_createdAtColumn TEXT,
               $_listNoteItemsColumn TEXT
+            )
+            ''',
+          );
+          await db.execute(
+            '''
+            CREATE TABLE $_drawingNoteTableName (
+              $_idColumn TEXT,
+              $_createdAtColumn TEXT,
+              $_sketchColumn BLOB
             )
             ''',
           );
@@ -88,6 +99,17 @@ class NotesDataProviderImpl extends NotesDataProvider {
   }
 
   @override
+  Future<void> insertDrawingNote(DrawingNoteModel model) async {
+    try {
+      final db = await _database;
+      await db.insert(_drawingNoteTableName, model.toMap());
+      _fetchNotes(0);
+    } catch (e) {
+      print("Error inserting list note $e");
+    }
+  }
+
+  @override
   void closeStream() {
     if (!_noteStreamController.isClosed) {
       _noteStreamController.close();
@@ -109,6 +131,9 @@ class NotesDataProviderImpl extends NotesDataProvider {
       final listNotes = await db.query(_listNotesDbTableName,
           limit: limit, offset: offset, orderBy: "$_createdAtColumn DESC");
 
+      final drawingNotes = await db.query(_drawingNoteTableName,
+          limit: limit, offset: offset, orderBy: "$_createdAtColumn DESC");
+
       final noteModels = notes.map((note) {
         return NoteModel(
           id: note[_idColumn] as int? ?? 0,
@@ -122,7 +147,16 @@ class NotesDataProviderImpl extends NotesDataProvider {
         return ListNoteModel.fromMap(note);
       }).toList();
 
-      final sortedItems = [...noteModels, ...listNoteModels];
+      final drawingNoteModels = drawingNotes.map((note) {
+        return DrawingNoteModel.fromMap(note);
+      }).toList();
+
+      final sortedItems = [
+        ...noteModels,
+        ...listNoteModels,
+        ...drawingNoteModels
+      ];
+
       sortedItems.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
       _safeAddToStream(sortedItems);

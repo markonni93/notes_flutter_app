@@ -11,6 +11,8 @@ abstract class NotesRepository extends ChangeNotifier {
 
   Future<Result<void>> insertListNote(ListNoteModel item);
 
+  Future<Result<void>> insertDrawingNote(DrawingNoteModel model);
+
   Stream<List<NoteUiModel>> getStreamNotes();
 
   void closeStream();

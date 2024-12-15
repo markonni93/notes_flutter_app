@@ -10,4 +10,6 @@ abstract class NotesDataProvider {
   void getNotes(int offset);
 
   Future<void> insertListNote(ListNoteModel model);
+
+  Future<void> insertDrawingNote(DrawingNoteModel model);
 }

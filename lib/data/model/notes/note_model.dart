@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 sealed class Note {
   const Note();
@@ -10,6 +11,8 @@ extension NoteExtension on Note {
       return (this as ListNoteModel).createdAt;
     } else if (this is NoteModel) {
       return (this as NoteModel).createdAt;
+    } else if (this is DrawingNoteModel) {
+      return (this as DrawingNoteModel).createdAt;
     } else {
       throw UnimplementedError('createdAt is not implemented for this type');
     }
@@ -61,5 +64,30 @@ class NoteModel extends Note {
 
   Map<String, Object?> toMap() {
     return {'note': note, 'title': title, 'createdAt': createdAt};
+  }
+}
+
+class DrawingNoteModel extends Note {
+  final String id;
+  final String createdAt;
+  final Uint8List sketch;
+
+  DrawingNoteModel(
+      {required this.id, required this.createdAt, required this.sketch});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'createdAt': createdAt,
+      'sketch': sketch, // Uint8List can be directly used with SQLite
+    };
+  }
+
+  factory DrawingNoteModel.fromMap(Map<String, dynamic> map) {
+    return DrawingNoteModel(
+      id: map['id'] as String,
+      createdAt: map['createdAt'] as String,
+      sketch: map['sketch'] as Uint8List, // BLOB stored as Uint8List
+    );
   }
 }
